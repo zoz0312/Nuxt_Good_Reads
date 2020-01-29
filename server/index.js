@@ -1,15 +1,62 @@
-const express = require('express')
-const consola = require('consola')
-const { Nuxt, Builder } = require('nuxt')
-const app = express()
+/* ==================================== *\
+|* =========== NPM Packages =========== *|
+\* ==================================== */
+const express = require('express');
+const consola = require('consola');
+const { Nuxt, Builder } = require('nuxt');
+const app = express();
+const mysql = require('mysql');
 
-// Import and Set Nuxt.js options
-const config = require('../nuxt.config.js')
-config.dev = process.env.NODE_ENV !== 'production'
+
+/* ==================================== *\
+|* =========== Local Config =========== *|
+\* ==================================== */
+const config = require('../nuxt.config.js');
+config.dev = process.env.NODE_ENV !== 'production';
+const server_config = require('/home/ahnhc/nomad_config.json');
+
+
+/* ==================================== *\
+|* =========== DB Connection ========== *|
+\* ==================================== */
+const db_connect = mysql.createConnection(server_config.server);
+db_connect.connect();
+db_connect.end();
+
+/* ==================================== *\
+|* ============== Router ============== *|
+\* ==================================== */
+const signup = require('./routes/signup');
+
+app.use('/signup', signup);
+
+
+/* ==================================== *\
+|* ======= Access-Control-Allow ======= *|
+\* ==================================== */
+app.all('*', (req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET, POST');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	next();
+});
+app.delete('*', (req, res, next) => {
+	res.status(404).end();
+	res.end();
+});
+app.options('*', (req, res, next) => {
+	res.status(404).end();
+	res.end();
+});
+app.head('*', (req, res, next) => {
+	res.status(404).end();
+	res.end();
+});
+
 
 async function start () {
   // Init Nuxt.js
-  const nuxt = new Nuxt(config)
+  const nuxt = new Nuxt(config);
 
   const { host, port } = nuxt.options.server
 
