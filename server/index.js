@@ -16,6 +16,14 @@ const server_config = require('/home/ahnhc/nomad_config.json');
 
 
 /* ==================================== *\
+|* =========== Middle Ware ============ *|
+\* ==================================== */
+const post_middle = require('./modules/post');
+
+app.use(post_middle);
+
+
+/* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */
 const signup = require('./routes/signup');

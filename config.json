@@ -4,6 +4,7 @@
 		"user": "",
 		"password": "",
 		"port": 0,
-		"database": ""
+		"database": "",
+		"dateStrings": "date"
 	}
 }

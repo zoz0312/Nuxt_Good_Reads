@@ -10,7 +10,10 @@ function database(){
 		return Promise((resolve, reject) => {
 			this.connection.query(sql, (err, rows) =>{
 				if( err ){
-					return reject(err);
+					return reject({
+						success: false,
+						fail_desc: err
+					});
 				}
 				resolve(rows);
 			});
@@ -20,7 +23,10 @@ function database(){
 		return Promise((resolve, reject) => {
 			this.connection.end( err => {
 				if( err ){
-					return reject(err);
+					return reject({
+						success: false,
+						fail_desc: err
+					});
 				}
 				this.connection = null;
 				resolve();
