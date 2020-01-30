@@ -17,6 +17,7 @@ const post_middleware = (req, res, next) => {
 			return rtn;
 		}
 	}
+	next();
 }
 
 module.exports = post_middleware;
