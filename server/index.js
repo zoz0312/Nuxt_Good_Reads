@@ -5,7 +5,9 @@ const express = require('express');
 const consola = require('consola');
 const { Nuxt, Builder } = require('nuxt');
 const app = express();
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json({limit: '50mb'}));
 
 /* ==================================== *\
 |* =========== Local Config =========== *|

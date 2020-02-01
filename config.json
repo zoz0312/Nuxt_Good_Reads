@@ -5,6 +5,7 @@
 		"password": "",
 		"port": 0,
 		"database": "",
-		"dateStrings": "date"
+		"dateStrings": "date",
+		"insecureAuth": true
 	}
 }

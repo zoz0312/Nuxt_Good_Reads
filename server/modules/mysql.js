@@ -7,7 +7,7 @@ function database(){
 		this.connection = mysql.createConnection(server_config.server);
 	}
 	this.query = (sql) => {
-		return Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			this.connection.query(sql, (err, rows) =>{
 				if( err ){
 					return reject({
@@ -20,7 +20,7 @@ function database(){
 		});
 	}
 	this.close = () => {
-		return Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			this.connection.end( err => {
 				if( err ){
 					return reject({
