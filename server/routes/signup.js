@@ -19,10 +19,9 @@ router.post('/', (req, res, next) => {
 	mysql.open();
 	mysql.query(query).then((result) => {
 		lib.rtn.success = true;
-		//lib.rtn.succ_desc = result;
+		lib.rtn.data = result;
 		res.json(lib.rtn_result());
-		return mysql.close();
-	}).then((result) => {
+		mysql.close();
 	}).catch((err) => {
 		res.json(err);
 	});
