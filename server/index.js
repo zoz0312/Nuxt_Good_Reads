@@ -29,8 +29,10 @@ app.use(post_middle);
 |* ============== Router ============== *|
 \* ==================================== */
 const signup = require('./routes/signup');
+const login = require('./routes/login');
 
 app.use('/signup', signup);
+app.use('/login', login);
 
 
 /* ==================================== *\
