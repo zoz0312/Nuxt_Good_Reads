@@ -6,9 +6,18 @@ const consola = require('consola');
 const { Nuxt, Builder } = require('nuxt');
 const app = express();
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 app.use(bodyParser.json({limit: '50mb'}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 /* ==================================== *\
 |* =========== Local Config =========== *|
 \* ==================================== */
@@ -30,9 +39,11 @@ app.use(post_middle);
 \* ==================================== */
 const signup = require('./routes/signup');
 const login = require('./routes/login');
+const auth = require('./routes/auth');
 
 app.use('/signup', signup);
 app.use('/login', login);
+app.use('/login/auth', auth);
 
 
 /* ==================================== *\
@@ -40,7 +51,7 @@ app.use('/login', login);
 \* ==================================== */
 app.all('*', (req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET, POST');
+	res.header('Access-Control-Allow-Methods', 'GET, POST, STATE');
 	res.header('Access-Control-Allow-Headers', 'Content-Type');
 	next();
 });

@@ -21,6 +21,7 @@
 		</v-card-text>
 		<v-card-actions>
 			<v-btn color="primary" @click="login">로그인</v-btn>
+			<a href='/login/auth/kakao'>카카오로그인</a>
 		</v-card-actions>
 	</v-card>
 </template>

@@ -7,5 +7,12 @@
 		"database": "",
 		"dateStrings": "date",
 		"insecureAuth": true
+	},
+	"auth":{
+		"kakao":{
+			"clientID":"",
+			"clientSecret":"",
+			"callbackURL":""
+		}
 	}
 }

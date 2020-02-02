@@ -1,3 +1,5 @@
+const server_config = require('/home/ahnhc/nomad_config.json');
+
 function constructor(){
 	this.rtn = {
 		success: false,
@@ -14,6 +16,7 @@ function constructor(){
 		return tmp;
 	}
 }
+constructor.prototype.auth = server_config.auth;
 
 
 module.exports = constructor;

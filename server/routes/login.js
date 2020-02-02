@@ -37,23 +37,6 @@ router.post('/', (req, res, next) => {
 	}).catch((err) => {
 		res.json(err);
 	});
-/*
-	const salt = Math.round((new Date().valueOf() * Math.random())) + '';
-	const hash_key = crypto.createHash('sha512').update(user_pw + salt).digest('hex');
-
-	query += 'INSERT INTO USER_TBL\n';
-	query += '(user_id, user_pw, email, nickname, create_date, user_lvl, salt_key)\nVALUES';
-	query += `('${user_id}', '${hash_key}', '${email}', '${name}', NOW(), '2', '${salt}');`;
-	mysql.open();
-	mysql.query(query).then((result) => {
-		lib.rtn.success = true;
-		lib.rtn.data = result;
-		res.json(lib.rtn_result());
-		mysql.close();
-	}).catch((err) => {
-		res.json(err);
-	});
-	*/
 });
 
 module.exports = router;
