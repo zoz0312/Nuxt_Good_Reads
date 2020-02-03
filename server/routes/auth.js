@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const KakaoStrategy = require('passport-kakao').Strategy;
 const libs = require('../modules/lib');
 let lib = new libs();

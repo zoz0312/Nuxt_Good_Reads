@@ -6,7 +6,6 @@ let lib = new libs();
 const database = require('../modules/mysql');
 let mysql = new database();
 
-
 router.post('/', (req, res, next) => {
 	const input_id = req.post('user_id');
 	const input_pw = req.post('user_pw');

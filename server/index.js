@@ -6,18 +6,33 @@ const consola = require('consola');
 const { Nuxt, Builder } = require('nuxt');
 const app = express();
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const passport = require('passport');
 
 app.use(bodyParser.json({limit: '50mb'}));
+app.use(session({
+	resave: false,
+	saveUninitialized: false,
+	secret: "test",
+	cookie: {
+		httpOnly: true,
+		secure: false
+	}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.serializeUser(function(user, done) {
+	//console.log('serialize', user);
   done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
+	//console.log('deseroalizer', user);
   done(null, user);
 });
+
+
 /* ==================================== *\
 |* =========== Local Config =========== *|
 \* ==================================== */
@@ -40,10 +55,16 @@ app.use(post_middle);
 const signup = require('./routes/signup');
 const login = require('./routes/login');
 const auth = require('./routes/auth');
+const logout = require('./routes/logout');
 
+app.get('/', (req, res, next) => {
+	console.log('req.session', req.session);
+	next();
+});
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/login/auth', auth);
+app.use('/logout', logout);
 
 
 /* ==================================== *\
