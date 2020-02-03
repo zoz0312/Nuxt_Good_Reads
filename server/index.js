@@ -7,17 +7,32 @@ const { Nuxt, Builder } = require('nuxt');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const fileStore = require('session-file-store')(session);
 const passport = require('passport');
+
+
+/* ==================================== *\
+|* =========== Local Config =========== *|
+\* ==================================== */
+const config = require('../nuxt.config.js');
+config.dev = process.env.NODE_ENV !== 'production';
+const server_config = require('/home/ahnhc/nomad_config.json');
+
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(session({
+	store: new fileStore(server_config.filestore),
 	resave: false,
+	key: server_config.session.key,
+	secret: server_config.session.secret,
 	saveUninitialized: false,
-	secret: "test",
+	resave:false,
+	/*
 	cookie: {
 		httpOnly: true,
 		secure: false
 	}
+	*/
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -32,15 +47,6 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-
-/* ==================================== *\
-|* =========== Local Config =========== *|
-\* ==================================== */
-const config = require('../nuxt.config.js');
-config.dev = process.env.NODE_ENV !== 'production';
-const server_config = require('/home/ahnhc/nomad_config.json');
-
-
 /* ==================================== *\
 |* =========== Middle Ware ============ *|
 \* ==================================== */
@@ -52,11 +58,13 @@ app.use(post_middle);
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */
+const all_chk = require('./all_chk');
 const signup = require('./routes/signup');
 const login = require('./routes/login');
 const auth = require('./routes/auth');
 const logout = require('./routes/logout');
 
+app.use('*', all_chk);
 app.get('/', (req, res, next) => {
 	console.log('req.session', req.session);
 	next();
@@ -72,7 +80,7 @@ app.use('/logout', logout);
 \* ==================================== */
 app.all('*', (req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET, POST, STATE');
+	res.header('Access-Control-Allow-Methods', 'GET, POST');
 	res.header('Access-Control-Allow-Headers', 'Content-Type');
 	next();
 });

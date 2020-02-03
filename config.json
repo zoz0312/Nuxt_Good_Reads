@@ -14,5 +14,13 @@
 			"clientSecret":"",
 			"callbackURL":""
 		}
+	},
+	"session":{
+		"key": "",
+		"secret": ""
+	},
+	"filestore":{
+		"ttl": 0,
+		"path": ""
 	}
 }
