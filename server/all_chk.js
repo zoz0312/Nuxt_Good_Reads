@@ -4,7 +4,7 @@ const libs = require('./modules/lib');
 let lib = new libs();
 
 router.all('/', (req, res, next) => {
-	//console.log("ALL IN");
+	console.log("ALL IN");
 	next();
 });
 

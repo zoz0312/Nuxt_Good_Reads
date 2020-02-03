@@ -64,7 +64,7 @@ const login = require('./routes/login');
 const auth = require('./routes/auth');
 const logout = require('./routes/logout');
 
-app.use('*', all_chk);
+//app.use('*', all_chk);
 app.get('/', (req, res, next) => {
 	console.log('req.session', req.session);
 	next();

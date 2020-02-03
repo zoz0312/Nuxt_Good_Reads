@@ -1,4 +1,5 @@
 const server_config = require('/home/ahnhc/nomad_config.json');
+const crypto = require('crypto');
 
 function constructor(){
 	this.rtn = {
@@ -17,6 +18,11 @@ function constructor(){
 	}
 }
 constructor.prototype.auth = server_config.auth;
-
+constructor.prototype.salt = () => {
+	return Math.round((new Date().valueOf() * Math.random())) + '';
+};
+constructor.prototype.hash_key = (value, key) => {
+	return crypto.createHash('sha512').update(value + key).digest('hex');
+};
 
 module.exports = constructor;
