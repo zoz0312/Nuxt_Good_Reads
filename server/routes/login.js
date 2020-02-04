@@ -6,26 +6,31 @@ const database = require('../modules/mysql');
 let mysql = new database();
 
 router.post('/', (req, res, next) => {
-	const input_id = req.post('user_id');
-	const input_pw = req.post('user_pw');
+	const input_id = req.post('username');
+	const input_pw = req.post('pasword');
 	let query;
 
 	query = `SELECT * FROM USER_TBL WHERE user_id = '${input_id}';`;
 
 	mysql.open();
 	mysql.query(query).then((result) => {
+		let rtn;
 		if( result.length === 0 ){
 			lib.rtn.success = false;
 			lib.rtn.data = 'fail'; // No Id
 		} else {
 			const { user_pw, salt_key } = result[0];
 			const hash_key = lib.hash_key(input_pw, salt_key);
-
+			let i=0;
 			if( user_pw === hash_key ){
-				//TODO CREATE Session
+				const data = {
+					'user_id': result[0].user_id,
+					'user_lvl': result[0].user_lvl
+				}
+				const rtn = Object.assign({}, result[0]);
 				lib.rtn.success = true;
-				lib.rtn.data = 'success';
-				req.session.passport = result[0];
+				lib.rtn.data = Object.assign({}, rtn);
+				req.session.passport = Object.assign({}, rtn);
 			} else {
 				lib.rtn.success = false;
 				lib.rtn.data = 'fail';

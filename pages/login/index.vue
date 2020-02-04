@@ -57,17 +57,26 @@ export default {
 		}
 	},
 	methods: {
-		login () {
+		async login () {
 			/* TODO ALERT */
 			console.log(this.$http);
 			if (!this.useString(this.model.user_id)) {
 			}
 			if (!this.useString(this.model.user_pw)) {
 			}
-			this.$http.post('/login', this.model).then((data) => {
-				console.log(data);
+			await this.$store.dispatch('login', {
+				username: this.model.user_id,
+				password: this.model.user_pw
+			}).then(() => {
+				if (this.$store.state.authUser === null) {
+					/* login fail */
+				} else {
+					/* login succecss */
+					this.$router.push('/')
+				}
 			}).catch((err) => {
-				console.log('err', err);
+				/* login fail */
+				console.log(err);
 			});
 		}
 	},

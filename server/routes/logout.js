@@ -3,10 +3,12 @@ const router = express.Router();
 const libs = require('../modules/lib');
 let lib = new libs();
 
-router.get('/', (req, res, next) => {
+router.post('/', (req, res, next) => {
 	req.logout();
-	console.log('/logout session?', req.session);
-	res.redirect('/');
+	req.session.passport = null;
+	lib.rtn.success = true;
+	lib.rtn.succ_desc = 'logout!';
+	res.json(lib.rtn_result());
 });
 
 module.exports = router;

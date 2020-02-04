@@ -29,7 +29,7 @@
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+		<v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn
         @click.stop="miniVariant = !miniVariant"
         icon
@@ -49,6 +49,14 @@
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
+			<v-btn
+				v-if="$store.state.authUser === null"
+				:to="'/login'"
+			>Login</v-btn>
+			<v-btn
+				v-if="$store.state.authUser !== null"
+				@click="logout"
+			>Logout</v-btn>
       <v-spacer />
       <v-btn
         @click.stop="rightDrawer = !rightDrawer"
@@ -111,6 +119,13 @@ export default {
 			right: true,
 			rightDrawer: false,
 			title: 'Vuetify.js'
+		}
+	},
+	methods: {
+		logout () {
+			this.$store.dispatch('logout').catch((err) => {
+				console.log('err', err);
+			})
 		}
 	}
 }
