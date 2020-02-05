@@ -58,11 +58,14 @@ const sess_chk = (req, res, next) => {
 	const sess = req.session.passport;
 	if( sess === null || sess === undefined ){
 		res.json({ session: false, data: '로그인 후 이용해주세요.'});
+		res.end();
 	} else {
 		next();
 	}
 }
 app.use('/profile', sess_chk);
+app.use('/book/write', sess_chk);
+app.use('/book/modify/:id', sess_chk);
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */
@@ -73,6 +76,7 @@ const auth = require('./routes/auth');
 const logout = require('./routes/logout');
 
 const profile = require('./routes/profile');
+const b_form = require('./routes/book/form');
 
 //app.use('*', all_chk);
 app.get('/', (req, res, next) => {
@@ -84,6 +88,7 @@ app.use('/login', login);
 app.use('/login/auth', auth);
 app.use('/logout', logout);
 app.use('/profile', profile);
+app.use('/book', b_form);
 
 
 /* ==================================== *\
