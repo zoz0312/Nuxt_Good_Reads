@@ -66,6 +66,8 @@ const sess_chk = (req, res, next) => {
 app.use('/profile', sess_chk);
 app.use('/book/write', sess_chk);
 app.use('/book/modify/:id', sess_chk);
+app.use('/comment', sess_chk);
+
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */
@@ -76,7 +78,8 @@ const auth = require('./routes/auth');
 const logout = require('./routes/logout');
 
 const profile = require('./routes/profile');
-const b_form = require('./routes/book/form');
+const book = require('./routes/book');
+const comment = require('./routes/comment');
 
 //app.use('*', all_chk);
 app.get('/', (req, res, next) => {
@@ -88,7 +91,8 @@ app.use('/login', login);
 app.use('/login/auth', auth);
 app.use('/logout', logout);
 app.use('/profile', profile);
-app.use('/book', b_form);
+app.use('/book', book);
+app.use('/comment', comment);
 
 
 /* ==================================== *\

@@ -19,6 +19,19 @@ function database(){
 			});
 		});
 	}
+	this.commit = () => {
+		return new Promise((resolve, reject) => {
+			this.connection.commit((err) => {
+				if( err ){
+					this.connection.rollback(() => {
+						reject(false);
+					});
+				} else {
+					resolve(true);
+				}
+			});
+		});
+	}
 	this.close = () => {
 		return new Promise((resolve, reject) => {
 			this.connection.end( err => {

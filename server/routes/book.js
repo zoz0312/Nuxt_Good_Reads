@@ -1,11 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
-const libs = require('../../modules/lib');
+const libs = require('../modules/lib');
 let lib = new libs();
-const database = require('../../modules/mysql');
+const database = require('../modules/mysql');
 let mysql = new database();
 
+router.post('/all/:page', async (req, res, next) => {
+	const p_num = req.params.page;
+	const e_page = p_num * 10;
+	const s_page = e_page - 10;
+	let query = `SELECT idx, title, author, image FROM BOOK_TBL ORDER BY idx DESC LIMIT ${s_page}, ${e_page};`;
+	const result = await mysql.query(query);
+	lib.rtn.success = true;
+	lib.rtn.data = result;
+	res.json(lib.rtn_result());
+});
 router.post('/detail/:id', async (req, res, next) => {
 	let query = '';
 	query += `SELECT * FROM BOOK_TBL WHERE id = ${req.params.id};`;
@@ -32,7 +42,7 @@ router.post('/write', async (req, res, next) => {
 		
 		let query = '';
 		query += `INSERT INTO BOOK_TBL\n`;
-		query += `(title, author, contents, user_idx)\nVVALUES`;
+		query += `(title, author, contents, user_idx)\nVALUES`;
 		query += `('${title}', '${author}', '${contents}', '${req.session.passport.idx}');`;
 		const result = await mysql.query(query);
 		lib.rtn.success = true;
@@ -61,6 +71,7 @@ router.post('/modify/:id', async (req, res, next) => {
 			query += `title = ${title},`;
 			query += `author = ${author},`;
 			query += `contents = ${contents} WHERE idx = ${b_id};`;
+			const result = await mysql.query(query);
 			lib.rtn.success = true;
 			lib.rtn.data = result;
 		} else {
