@@ -53,6 +53,19 @@ router.post('/update/:idx', async (req, res, next) => {
 	res.json(lib.rtn_result());
 });
 
+router.post('/delete/:idx', async (req, res, next) => {
+	const user_id = req.body.user_id;
+	const sess_id = req.session.passport.user_id;
+	
+	if( user_id === sess_id ){
+		await mysql.query(`DELETE FROM COMMENT_TBL WHERE idx = ${req.params.idx};`);
+		lib.rtn.success = await mysql.commit();
+	} else {
+		lib.rtn.data = '접근 권한이 없습니다.';
+	}
+	res.json(lib.rtn_result());
+});
+
 router.post('/profile/:page', async (req, res, next) => {
 	const user_id = req.body.user_id;
 	const sess_id = req.session.passport.user_id;
