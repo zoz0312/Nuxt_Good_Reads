@@ -9,7 +9,7 @@ router.post('/book', async (req, res, next) => {
 	const type = req.post('type');
 	const s_text = req.post('text');
 	let filter = '';
-	swtich( type ){
+	switch( type ){
 		case 1: filter = 'title'; break;
 		case 2: filter = 'author'; break;
 		default: filter = false;
