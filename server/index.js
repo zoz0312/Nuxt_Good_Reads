@@ -72,6 +72,8 @@ app.use('/bookmark', sess_chk);
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */
+const search = require('./search/search');
+
 const all_chk = require('./all_chk');
 const signup = require('./routes/signup');
 const login = require('./routes/login');
@@ -82,6 +84,8 @@ const profile = require('./routes/profile');
 const book = require('./routes/book');
 const comment = require('./routes/comment');
 const bookmark = require('./routes/bookmark');
+
+app.use('/search', search);
 
 //app.use('*', all_chk);
 app.get('/', (req, res, next) => {
