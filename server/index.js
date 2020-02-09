@@ -67,6 +67,7 @@ app.use('/profile', sess_chk);
 app.use('/book/write', sess_chk);
 app.use('/book/modify/:id', sess_chk);
 app.use('/comment', sess_chk);
+app.use('/bookmark', sess_chk);
 
 /* ==================================== *\
 |* ============== Router ============== *|
@@ -80,6 +81,7 @@ const logout = require('./routes/logout');
 const profile = require('./routes/profile');
 const book = require('./routes/book');
 const comment = require('./routes/comment');
+const bookmark = require('./routes/bookmark');
 
 //app.use('*', all_chk);
 app.get('/', (req, res, next) => {
@@ -93,6 +95,7 @@ app.use('/logout', logout);
 app.use('/profile', profile);
 app.use('/book', book);
 app.use('/comment', comment);
+app.use('/bookmark', bookmark);
 
 
 /* ==================================== *\
