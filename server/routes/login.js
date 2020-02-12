@@ -30,7 +30,8 @@ router.post('/', (req, res, next) => {
 				const rtn = Object.assign({}, result[0]);
 				lib.rtn.success = true;
 				lib.rtn.data = Object.assign({}, rtn);
-				req.session.passport = Object.assign({}, rtn);
+				req.session.user = Object.assign({}, rtn);
+				console.log('login session', req.session)
 			} else {
 				lib.rtn.success = false;
 				lib.rtn.data = 'fail';

@@ -8,6 +8,9 @@ let mysql = new database();
 
 
 router.post('/read', async (req, res, next) => {
+	console.log('PROFILE!!!');
+	console.log('req.body', req.body);
+	console.log('req.session', req.session);
 	//const name = req.post('name');
 	const user_id = req.body.user_id;
 	const sess_id = req.session.passport.user_id;

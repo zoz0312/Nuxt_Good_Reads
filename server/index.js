@@ -25,8 +25,7 @@ app.use(session({
 	resave: false,
 	key: server_config.session.key,
 	secret: server_config.session.secret,
-	saveUninitialized: false,
-	resave:false,
+	saveUninitialized: true,
 	/*
 	cookie: {
 		httpOnly: true,
@@ -56,6 +55,9 @@ app.use(post_middle);
 
 const sess_chk = (req, res, next) => {
 	const sess = req.session.passport;
+	console.log('req.url', req.url);
+	console.log('req.session', req.session);
+	console.log('sess', sess);
 	if( sess === null || sess === undefined ){
 		res.json({ session: false, data: '로그인 후 이용해주세요.'});
 		res.end();
@@ -63,12 +65,13 @@ const sess_chk = (req, res, next) => {
 		next();
 	}
 }
+/*
 app.use('/profile', sess_chk);
 app.use('/book/write', sess_chk);
 app.use('/book/modify/:id', sess_chk);
 app.use('/comment', sess_chk);
 app.use('/bookmark', sess_chk);
-
+*/
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */
