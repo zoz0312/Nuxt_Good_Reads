@@ -1,6 +1,10 @@
 <template>
 	<div>
-		<BookCard v-bind:bookinfo="bookinfo" />
+		<BookCard
+			v-for="(item, idx) in bookinfo"
+			v-bind:key="idx"
+			v-bind:item="item"
+		/>
 	</div>
 </template>
 

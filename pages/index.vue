@@ -11,8 +11,6 @@
     >
 		<BookList v-bind:bookinfo="book_list"/>
     </v-flex>
-			{{ book_list }}
-			<button @click="getBookList">asdsadasd</button>
   </v-layout>
 </template>
 
@@ -28,6 +26,7 @@ export default {
 	},
 	async asyncData ({ params }) {
 		const { data } = await axios.post('http://localhost:3000/book/all/1');
+		/* const { data } = await axios.post('localhost:3000/book/all/1'); */
 		return {
 			book_list: data.data
 		}

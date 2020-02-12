@@ -1,27 +1,24 @@
 <template>
 	<v-card
 		max-width="220"
+		:to="'/book/' + item.idx"
 	>
-	{{ bookinfo }}
 	<v-img
 		class="white--text align-end"
 		height="200px"
 		src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
 	/>
-		<v-card-title class="pb-0">Number 10</v-card-title>
-		<v-card-text class="text--primary">
-			<div>Whitehaven Beach</div>
-			<div>Whitsunday Island, Whitsunday Islands</div>
-		</v-card-text>
+		<v-card-title class="">
+			{{ item.title }}
+		</v-card-title>
+		<v-card-subtitle class="py-0">지은이 : {{ item.author }}</v-card-subtitle>
+		<v-card-subtitle class="pt-0">출간일 : {{ item.create_date }}</v-card-subtitle>
 	</v-card>
 </template>
 
-<style scope>
-</style>
-
 <script>
 export default {
-	props: ['bookinfo'],
+	props: ['item'],
 	data () {
 		return {
 		}
@@ -30,3 +27,6 @@ export default {
 	}
 }
 </script>
+
+<style scope>
+</style>
