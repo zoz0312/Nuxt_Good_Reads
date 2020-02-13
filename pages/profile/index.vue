@@ -9,17 +9,41 @@
 		</v-card-text>
 		<v-card-text>
 			<v-row>
-				<v-col cols="12">
-					{{ user_data }}
+				<v-col cols="3">
+					사용자 ID
+				</v-col>
+				<v-col cols="9">
+					{{ user_data.user_id }}
 				</v-col>
 			</v-row>
 			<v-row>
-				<v-col cols="12">
+				<v-col cols="3">
+					별칭
+				</v-col>
+				<v-col cols="9">
+					{{ user_data.nickname }}
 				</v-col>
 			</v-row>
+			<v-row>
+				<v-col cols="3">
+					생성일
+				</v-col>
+				<v-col cols="9">
+					{{ user_data.create_date }}
+				</v-col>
+			</v-row>
+			<v-row>
+				<v-col cols="3">
+					마지막 로그인
+				</v-col>
+				<v-col cols="9">
+					{{ user_data.last_login_date }}
+				</v-col>
+			</v-row>
+			{{ user_data }}
 		</v-card-text>
 		<v-card-actions>
-			<v-btn color="primary" @click="">로그인</v-btn>
+			<v-btn color="primary" @click="">수정?</v-btn>
 		</v-card-actions>
 	</v-card>
 </template>
