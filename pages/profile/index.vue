@@ -1,56 +1,60 @@
 <template>
-	<v-card
-		class="mx-auto"
-		max-width="800">
-		<v-card-text>
-			<span class="display-1 text--primary">
-				내 정보
-			</span>
-		</v-card-text>
-		<v-card-text>
-			<v-row>
-				<v-col cols="3">
-					사용자 ID
-				</v-col>
-				<v-col cols="9">
-					{{ user_data.user_id }}
-				</v-col>
-			</v-row>
-			<v-row>
-				<v-col cols="3">
-					별칭
-				</v-col>
-				<v-col cols="9">
-					{{ user_data.nickname }}
-				</v-col>
-			</v-row>
-			<v-row>
-				<v-col cols="3">
-					생성일
-				</v-col>
-				<v-col cols="9">
-					{{ user_data.create_date }}
-				</v-col>
-			</v-row>
-			<v-row>
-				<v-col cols="3">
-					마지막 로그인
-				</v-col>
-				<v-col cols="9">
-					{{ user_data.last_login_date }}
-				</v-col>
-			</v-row>
-			{{ user_data }}
-		</v-card-text>
-		<v-card-actions>
-			<v-btn color="primary" @click="">수정?</v-btn>
-		</v-card-actions>
-	</v-card>
+	<div>
+		<v-card
+			class="mx-auto"
+			max-width="800">
+			<v-card-text>
+				<span class="display-1 text--primary">
+					내 정보
+				</span>
+			</v-card-text>
+			<v-card-text>
+				<v-row>
+					<v-col cols="3">
+						사용자 ID
+					</v-col>
+					<v-col cols="9">
+						{{ user_data.user_id }}
+					</v-col>
+				</v-row>
+				<v-row>
+					<v-col cols="3">
+						별칭
+					</v-col>
+					<v-col cols="9">
+						{{ user_data.nickname }}
+					</v-col>
+				</v-row>
+				<v-row>
+					<v-col cols="3">
+						생성일
+					</v-col>
+					<v-col cols="9">
+						{{ user_data.create_date }}
+					</v-col>
+				</v-row>
+				<v-row>
+					<v-col cols="3">
+						마지막 로그인
+					</v-col>
+					<v-col cols="9">
+						{{ user_data.last_login_date }}
+					</v-col>
+				</v-row>
+				{{ user_data }}
+			</v-card-text>
+			<v-card-actions>
+				<v-btn color="primary" @click="">수정?</v-btn>
+			</v-card-actions>
+		</v-card>
+		<BookList v-bind:bookinfo="book_data"/>
+	</div>
 </template>
 
 <script>
 import axios from 'axios'
 import '~/mixin'
+import BookList from '~/components/BookList/BookList'
 
 export default {
 	middleware: 'auth',
@@ -71,9 +75,11 @@ export default {
 			idx: req.session.passport.idx,
 			user_pw: req.session.passport.user_pw
 		}
-		const { data } = await axios.post(`${req.session.host}/profile/read`, d);
+		const result = await axios.post(`${req.session.host}/profile/read`, d);
+		const result2 = await axios.post(`${req.session.host}/book/mybook/1`, d);
 		return {
-			user_data: data.data
+			user_data: result.data.data,
+			book_data: result2.data.data
 		}
 	},
 	data () {
@@ -84,12 +90,14 @@ export default {
 					value => (value && value.length >= 3) || 'Min 3 characters'
 				]
 			},
-			user_data: null
+			user_data: null,
+			book_data: null
 		}
 	},
 	methods: {
 	},
 	components: {
+		BookList
 	}
 }
 </script>

@@ -54,8 +54,8 @@ const ssr_middle = require('./modules/ssr_post_chk');
 
 app.use(post_middle);
 app.use('/profile', ssr_middle);
+app.use('/book/mybook', ssr_middle);
 /*
-app.use('/book/write', ssr_post_chk);
 app.use('/book/modify/:id', ssr_post_chk);
 app.use('/comment', ssr_post_chk);
 app.use('/bookmark', ssr_post_chk);

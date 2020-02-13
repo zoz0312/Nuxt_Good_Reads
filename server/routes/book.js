@@ -6,9 +6,6 @@ let lib = new libs();
 const database = require('../modules/mysql');
 let mysql = new database();
 
-router.post('/', async (req, res, next) => {
-	res.send(lib.rtn_result());
-});
 router.post('/all/:page', async (req, res, next) => {
 	const p_num = req.params.page;
 	const e_page = p_num * 10;
@@ -19,8 +16,20 @@ router.post('/all/:page', async (req, res, next) => {
 	const result = await mysql.query(query);
 	lib.rtn.success = true;
 	lib.rtn.data = result;
-	res.send(lib.rtn_result());
-	res.end();
+	res.json(lib.rtn_result());
+});
+
+router.post('/mybook/:page', async (req, res, next) => {
+	const idx = req.post('idx');
+	const p_num = req.params.page;
+	const e_page = p_num * 10;
+	const s_page = e_page - 10;
+	mysql.open();
+	let query = `SELECT idx, title, author, image FROM BOOK_TBL WHERE user_idx = '${idx}' ORDER BY idx DESC LIMIT ${s_page}, ${e_page};`;
+	const result = await mysql.query(query);
+	lib.rtn.success = true;
+	lib.rtn.data = result;
+	res.json(lib.rtn_result());
 });
 
 router.post('/detail/:id', async (req, res, next) => {
