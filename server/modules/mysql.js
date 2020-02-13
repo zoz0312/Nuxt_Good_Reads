@@ -7,6 +7,7 @@ function database(){
 		this.connection = mysql.createConnection(server_config.server);
 	}
 	this.query = (sql) => {
+		console.log('query', sql);
 		return new Promise((resolve, reject) => {
 			this.connection.query(sql, (err, rows) =>{
 				if( err ){

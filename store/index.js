@@ -15,16 +15,10 @@ export const mutations = {
 
 export const actions = {
 	nuxtServerInit ({ commit }, { req, app }) {
-		if (req.session.user) {
-			const { user_id, user_lvl } = req.session.user;
-			commit('SET_USER', { user_id, user_lvl });
-		}
-		/*
 		if (req.session.passport) {
 			const { user_id, user_lvl } = req.session.passport;
 			commit('SET_USER', { user_id, user_lvl });
 		}
-		*/
 	},
 	async login ({ commit }, { username, password }) {
 		await axios.post('/login', { username, password }).then((result) => {

@@ -11,6 +11,7 @@
     >
 		<BookList v-bind:bookinfo="book_list"/>
     </v-flex>
+			<button @click="getBookList">dasdsasda</button>
   </v-layout>
 </template>
 

@@ -79,7 +79,6 @@ export default {
 	methods: {
 		create () {
 			/* TODO ALERT */
-			console.log(this.$http);
 			if (!this.useString(this.model.user_id)) {
 			}
 			if (!this.useString(this.model.user_pw)) {

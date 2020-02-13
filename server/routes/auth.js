@@ -23,7 +23,6 @@ const is_user = async (user_id) => {
 
 passport.use('kakao-login', new KakaoStrategy(lib.auth.kakao,
 	async (accessToken, refreshToken, profile, done) => {
-		console.log(profile);
 		const user_id = `${profile.id}`;
 		
 		const chk_user = is_user(user_id);

@@ -10,16 +10,13 @@ router.post('/', async (req, res, next) => {
 	res.send(lib.rtn_result());
 });
 router.post('/all/:page', async (req, res, next) => {
-	console.log('All In');
 	const p_num = req.params.page;
 	const e_page = p_num * 10;
 	const s_page = e_page - 10;
 
 	mysql.open();
 	let query = `SELECT idx, title, author, image FROM BOOK_TBL ORDER BY idx DESC LIMIT ${s_page}, ${e_page};`;
-	console.log('query', query);
 	const result = await mysql.query(query);
-	console.log('result', result);
 	lib.rtn.success = true;
 	lib.rtn.data = result;
 	res.send(lib.rtn_result());

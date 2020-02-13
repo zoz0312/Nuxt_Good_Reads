@@ -50,27 +50,15 @@ passport.deserializeUser(function(user, done) {
 |* =========== Middle Ware ============ *|
 \* ==================================== */
 const post_middle = require('./modules/post');
+const ssr_middle = require('./modules/ssr_post_chk');
 
 app.use(post_middle);
-
-const sess_chk = (req, res, next) => {
-	const sess = req.session.passport;
-	console.log('req.url', req.url);
-	console.log('req.session', req.session);
-	console.log('sess', sess);
-	if( sess === null || sess === undefined ){
-		res.json({ session: false, data: '로그인 후 이용해주세요.'});
-		res.end();
-	} else {
-		next();
-	}
-}
+app.use('/profile', ssr_middle);
 /*
-app.use('/profile', sess_chk);
-app.use('/book/write', sess_chk);
-app.use('/book/modify/:id', sess_chk);
-app.use('/comment', sess_chk);
-app.use('/bookmark', sess_chk);
+app.use('/book/write', ssr_post_chk);
+app.use('/book/modify/:id', ssr_post_chk);
+app.use('/comment', ssr_post_chk);
+app.use('/bookmark', ssr_post_chk);
 */
 /* ==================================== *\
 |* ============== Router ============== *|
