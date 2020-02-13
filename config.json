@@ -22,5 +22,6 @@
 	"filestore":{
 		"ttl": 0,
 		"path": ""
-	}
+	},
+	"host": "http://localhost:3000"
 }

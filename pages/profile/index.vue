@@ -43,12 +43,11 @@ export default {
 		}
 	},
 	async asyncData ({ params, store, req }) {
-		console.log('req', req.session.passport);
 		const d = {
-			user_pw: req.session.passport.user_pw,
-			idx: req.session.passport.idx
+			idx: req.session.passport.idx,
+			user_pw: req.session.passport.user_pw
 		}
-		const { data } = await axios.post('http://localhost:3000/profile/read', d);
+		const { data } = await axios.post(`${req.session.host}/profile/read`, d);
 		return {
 			user_data: data.data
 		}

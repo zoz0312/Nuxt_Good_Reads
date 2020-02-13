@@ -8,12 +8,11 @@ let mysql = new database();
 
 
 router.post('/read', async (req, res, next) => {
-	const user_pw = req.post('user_pw');
 	const user_idx = req.post('idx');
 
 	let query = '';
 	query += 'SELECT user_id, create_date, last_login_date, email, nickname, profile, social_kakao\n';
-	query += `FROM USER_TBL WHERE idx = ${user_idx} AND user_pw = '${user_pw}';`;
+	query += `FROM USER_TBL WHERE idx = ${user_idx};`;
 	mysql.open();
 	const result = await mysql.query(query);
 	lib.rtn.success = true;

@@ -15,6 +15,7 @@ export const mutations = {
 
 export const actions = {
 	nuxtServerInit ({ commit }, { req, app }) {
+		req.session.host = 'http://localhost:3000';
 		if (req.session.passport) {
 			const { user_id, user_lvl } = req.session.passport;
 			commit('SET_USER', { user_id, user_lvl });

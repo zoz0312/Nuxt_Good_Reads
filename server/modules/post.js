@@ -1,5 +1,4 @@
 const post_middleware = (req, res, next) => {
-	console.log('post middle');
 	req.post = (key_) => {
 		if( req.body ){
 			if( key_ === undefined ){

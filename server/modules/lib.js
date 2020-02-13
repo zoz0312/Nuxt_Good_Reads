@@ -24,5 +24,6 @@ constructor.prototype.salt = () => {
 constructor.prototype.hash_key = (value, key) => {
 	return crypto.createHash('sha512').update(value + key).digest('hex');
 };
+constructor.prototype.host = server_config.host;
 
 module.exports = constructor;
