@@ -48,18 +48,19 @@ router.post('/detail/:id', async (req, res, next) => {
 });
 
 router.post('/write', async (req, res, next) => {
-	const user_id = req.body.user_id;
+	const user_id = req.post('user_id');
 	const sess_id = req.session.passport.user_id;
 	if( user_id === sess_id ){
 		const title = req.post('title');
 		const author = req.post('author');
 		const contents = req.post('contents');
-		//const image = req.body.image;
+		const image = req.post('thumbnail');
 		
 		let query = '';
 		query += `INSERT INTO BOOK_TBL\n`;
-		query += `(title, author, contents, user_idx)\nVALUES`;
-		query += `('${title}', '${author}', '${contents}', '${req.session.passport.idx}');`;
+		query += `(title, author, contents, user_idx, image, write_date)\nVALUES`;
+		query += `('${title}', '${author}', '${contents}', '${req.session.passport.idx}', '${image}', NOW());`;
+		mysql.open();
 		const result = await mysql.query(query);
 		lib.rtn.success = true;
 		lib.rtn.data = result;
@@ -87,6 +88,7 @@ router.post('/modify/:id', async (req, res, next) => {
 			query += `title = ${title},`;
 			query += `author = ${author},`;
 			query += `contents = ${contents} WHERE idx = ${b_id};`;
+			mysql.open();
 			const result = await mysql.query(query);
 			lib.rtn.success = true;
 			lib.rtn.data = result;
