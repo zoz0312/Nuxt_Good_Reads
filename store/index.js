@@ -26,9 +26,6 @@ export const actions = {
 			if (result.data.success) {
 				const { user_id, user_lvl } = result.data.data;
 				commit('SET_USER', { user_id, user_lvl });
-				this.$router.push('/')
-			} else {
-
 			}
 		}).catch((err) => {
 			console.log('Login Error', err);
