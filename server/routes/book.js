@@ -34,10 +34,10 @@ router.post('/mybook/:page', async (req, res, next) => {
 
 router.post('/detail/:id', async (req, res, next) => {
 	let query = '';
-	query += `SELECT * FROM BOOK_TBL WHERE id = ${req.params.id};`;
+	query += `SELECT * FROM BOOK_TBL WHERE idx = '${req.params.id}';`;
 	mysql.open();
 	const result = await mysql.query(query);
-	if( result.length === 0 ){
+	if( result.length !== 0 ){
 		lib.rtn.success = true;
 		lib.rtn.data = result[0];
 	} else {

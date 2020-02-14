@@ -11,7 +11,6 @@
     >
 		<BookList v-bind:bookinfo="book_list"/>
     </v-flex>
-			<button @click="getBookList">dasdsasda</button>
   </v-layout>
 </template>
 
@@ -33,10 +32,6 @@ export default {
 		}
 	},
 	methods: {
-		async getBookList () {
-			const { data } = await axios.post('/book/all/1');
-			this.book_list = data.data;
-		}
 	},
 	mounted () {
 		/* this.getBookList(); */

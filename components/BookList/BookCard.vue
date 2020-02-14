@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		max-width="220"
-		:to="'/book/' + item.idx"
+		:to="'/book/read/' + item.idx"
 	>
 	<v-img
 		class="white--text align-end"
