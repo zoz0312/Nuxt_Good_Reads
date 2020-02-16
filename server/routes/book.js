@@ -35,7 +35,7 @@ router.post('/mybook/:page', async (req, res, next) => {
 });
 
 router.post('/detail/:id', async (req, res, next) => {
-	/* SSR POST */
+	/* NO POST CHECK */
 	let query = '';
 	query += `SELECT * FROM BOOK_TBL WHERE idx = '${req.params.id}';`;
 	mysql.open();

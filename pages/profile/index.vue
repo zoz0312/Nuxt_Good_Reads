@@ -71,7 +71,7 @@ export default {
 		}
 	},
 	async asyncData ({ params, store, req }) {
-		const host = 'http://127.0.0.1:' + req.headers.host.split(':')[1];
+		const host = req === undefined ? '' : 'http://127.0.0.1:3000';
 		const d = {
 			idx: req.session.passport.idx,
 			user_pw: req.session.passport.user_pw

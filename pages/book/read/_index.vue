@@ -59,7 +59,7 @@ export default {
 		}
 	},
 	async asyncData ({ params, req }) {
-		const host = 'http://127.0.0.1:' + req.headers.host.split(':')[1];
+		const host = req === undefined ? '' : 'http://127.0.0.1:3000';
 		const result = await axios.post(`${host}/book/detail/${params.index}`);
 		return {
 			book_data: result.data.data

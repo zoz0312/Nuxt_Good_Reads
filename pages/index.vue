@@ -25,9 +25,8 @@ export default {
 		}
 	},
 	async asyncData ({ params, req }) {
-		const host = 'http://127.0.0.1:' + req.headers.host.split(':')[1];
+		const host = req === undefined ? '' : 'http://127.0.0.1:3000';
 		const { data } = await axios.post(`${host}/book/all/1`);
-		/* const { data } = await axios.post('localhost:3000/book/all/1'); */
 		return {
 			book_list: data.data
 		}
