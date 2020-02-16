@@ -18,6 +18,11 @@
 					</v-col>
 				</v-row>
 				<v-row>
+					<v-col>
+						<img :src="book_data.image" />
+					</v-col>
+				</v-row>
+				<v-row>
 					<v-col cols="3">
 						Author
 					</v-col>
@@ -33,7 +38,6 @@
 						{{ book_data.contents }}
 					</v-col>
 				</v-row>
-				{{ book_data }}
 			</v-card-text>
 			<v-card-actions>
 			</v-card-actions>
