@@ -50,16 +50,15 @@ passport.deserializeUser(function(user, done) {
 |* =========== Middle Ware ============ *|
 \* ==================================== */
 const post_middle = require('./modules/post');
-const ssr_middle = require('./modules/ssr_post_chk');
+const ssr_chk_middle = require('./modules/ssr_post_chk');
+const post_chk_middle = require('./modules/post_chk');
 
 app.use(post_middle);
-app.use('/profile', ssr_middle);
-app.use('/book/mybook', ssr_middle);
-/*
-app.use('/book/modify/:id', ssr_post_chk);
-app.use('/comment', ssr_post_chk);
-app.use('/bookmark', ssr_post_chk);
-*/
+
+app.use('/profile', ssr_chk_middle);
+app.use('/book/mybook', ssr_chk_middle);
+
+app.use('/book/modify', post_chk_middle);
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */

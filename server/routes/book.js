@@ -52,25 +52,19 @@ router.post('/detail/:id', async (req, res, next) => {
 
 router.post('/write', async (req, res, next) => {
 	/* POST */
-	const user_id = req.post('user_id');
-	const sess_id = req.session.passport.user_id;
-	if( user_id === sess_id ){
-		const title = req.post('title');
-		const author = req.post('author');
-		const contents = req.post('contents');
-		const image = req.post('thumbnail');
-		
-		let query = '';
-		query += `INSERT INTO BOOK_TBL\n`;
-		query += `(title, author, contents, user_idx, image, write_date)\nVALUES`;
-		query += `('${title}', '${author}', '${contents}', '${req.session.passport.idx}', '${image}', NOW());`;
-		mysql.open();
-		const result = await mysql.query(query);
-		lib.rtn.success = true;
-		lib.rtn.data = result;
-	} else {
-		lib.rtn.data = '접근 권한이 없습니다.';
-	}
+	const title = req.post('title');
+	const author = req.post('author');
+	const contents = req.post('contents');
+	const image = req.post('thumbnail');
+
+	let query = '';
+	query += `INSERT INTO BOOK_TBL\n`;
+	query += `(title, author, contents, user_idx, image, write_date)\nVALUES`;
+	query += `('${title}', '${author}', '${contents}', '${req.session.passport.idx}', '${image}', NOW());`;
+	mysql.open();
+	const result = await mysql.query(query);
+	lib.rtn.success = true;
+	lib.rtn.data = result;
 	res.json(lib.rtn_result());
 });
 
