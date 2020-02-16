@@ -26,12 +26,6 @@ export default {
 		}
 	},
 	asyncData ({ params, req }) {
-		/*
-		const result = await axios.post(`${req.session.host}/book/detail/${params.index}`);
-		return {
-			book_data: result.data.data
-		}
-		*/
 		const props = {};
 		props.user_id = req.session.passport.user_id;
 		props.user_idx = req.session.passport.idx;

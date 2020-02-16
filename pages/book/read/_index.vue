@@ -46,7 +46,6 @@ import axios from 'axios'
 import '~/mixin'
 
 export default {
-	middleware: 'auth',
 	head () {
 		return {
 			title: `${this.book_data.title} 상세정보`,
@@ -60,7 +59,8 @@ export default {
 		}
 	},
 	async asyncData ({ params, req }) {
-		const result = await axios.post(`${req.session.host}/book/detail/${params.index}`);
+		const host = 'http://127.0.0.1:' + req.headers.host.split(':')[1];
+		const result = await axios.post(`${host}/book/detail/${params.index}`);
 		return {
 			book_data: result.data.data
 		}

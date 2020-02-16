@@ -24,15 +24,13 @@ export default {
 		}
 	},
 	async asyncData ({ params, req }) {
+		const host = 'http://127.0.0.1:' + req.headers.host.split(':')[1];
 		const d = {
 			idx: req.session.passport.idx,
 			user_pw: req.session.passport.user_pw
 		};
 		const bookIdx = params.index;
-		/*
-		const result = await axios.post(`${req.session.host}/book/modify/${params.index}`, d);
-		*/
-		const result = await axios.post(`${req.session.host}/book/detail/${bookIdx}`, d);
+		const result = await axios.post(`${host}/book/detail/${bookIdx}`, d);
 		return {
 			book_data: {
 				type: 'fix',

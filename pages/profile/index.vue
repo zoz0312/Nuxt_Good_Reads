@@ -71,12 +71,13 @@ export default {
 		}
 	},
 	async asyncData ({ params, store, req }) {
+		const host = 'http://127.0.0.1:' + req.headers.host.split(':')[1];
 		const d = {
 			idx: req.session.passport.idx,
 			user_pw: req.session.passport.user_pw
 		}
-		const result = await axios.post(`${req.session.host}/profile/read`, d);
-		const result2 = await axios.post(`${req.session.host}/book/mybook/1`, d);
+		const result = await axios.post(`${host}/profile/read`, d);
+		const result2 = await axios.post(`${host}/book/mybook/1`, d);
 		return {
 			user_data: result.data.data,
 			book_data: result2.data.data
