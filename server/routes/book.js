@@ -7,6 +7,7 @@ const database = require('../modules/mysql');
 let mysql = new database();
 
 router.post('/all/:page', async (req, res, next) => {
+	/* SSR POST */
 	const p_num = req.params.page;
 	const e_page = p_num * 10;
 	const s_page = e_page - 10;
@@ -20,6 +21,7 @@ router.post('/all/:page', async (req, res, next) => {
 });
 
 router.post('/mybook/:page', async (req, res, next) => {
+	/* SSR POST */
 	const idx = req.post('idx');
 	const p_num = req.params.page;
 	const e_page = p_num * 10;
@@ -33,6 +35,7 @@ router.post('/mybook/:page', async (req, res, next) => {
 });
 
 router.post('/detail/:id', async (req, res, next) => {
+	/* SSR POST */
 	let query = '';
 	query += `SELECT * FROM BOOK_TBL WHERE idx = '${req.params.id}';`;
 	mysql.open();
@@ -48,6 +51,7 @@ router.post('/detail/:id', async (req, res, next) => {
 });
 
 router.post('/write', async (req, res, next) => {
+	/* POST */
 	const user_id = req.post('user_id');
 	const sess_id = req.session.passport.user_id;
 	if( user_id === sess_id ){
@@ -71,30 +75,37 @@ router.post('/write', async (req, res, next) => {
 });
 
 router.post('/modify/:id', async (req, res, next) => {
-	const user_id = req.body.user_id;
+	/* POST */
+	const user_id = req.post('user_id');
 	const sess_id = req.session.passport.user_id;
+	console.log('sess', req.session.passport);
+
 	if( user_id === sess_id ){
-		const u_idx = req.session.passport.idx;
+		const u_idx = req.post('idx');
 		const b_id = req.params.id;
+		mysql.open();
 		const b_result = await mysql.query(`SELECT * FROM BOOK_TBL WHERE idx = ${b_id} AND user_idx = ${u_idx};`);
 		if( b_result.length !== 0 ){
 			const title = req.post('title');
 			const author = req.post('author');
 			const contents = req.post('contents');
-			//const image = req.body.image;
+			const image = req.post('thumbnail');
 
 			let query = '';
 			query += `UPDATE BOOK_TBL SET\n`;
-			query += `title = ${title},`;
-			query += `author = ${author},`;
-			query += `contents = ${contents} WHERE idx = ${b_id};`;
-			mysql.open();
+			query += `title = '${title}',`;
+			query += `author = '${author}',`;
+			query += `contents = '${contents}',`;
+			query += `image = '${image}'`;
+			query += `WHERE idx = '${b_id}';`;
 			const result = await mysql.query(query);
+			console.log('result', result);
 			lib.rtn.success = true;
 			lib.rtn.data = result;
 		} else {
 			lib.rtn.data = '잘못된 접근입니다.';
 		}
+		mysql.close();
 	} else {
 		lib.rtn.data = '접근 권한이 없습니다.';
 	}

@@ -36,7 +36,10 @@ export default {
 		props.user_id = req.session.passport.user_id;
 		props.user_idx = req.session.passport.idx;
 		return {
-			book_data: props
+			book_data: {
+				type: 'add',
+				data: props
+			}
 		}
 	},
 	data () {
