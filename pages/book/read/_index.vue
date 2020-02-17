@@ -42,12 +42,15 @@
 			<v-card-actions>
 			</v-card-actions>
 		</v-card>
+		<CommentList
+			v-bind:commentInfo="comment_data"/>
 	</div>
 </template>
 
 <script>
 import axios from 'axios'
 import '~/mixin'
+import CommentList from '~/components/Comment/CommentList'
 
 export default {
 	head () {
@@ -64,9 +67,12 @@ export default {
 	},
 	async asyncData ({ params, req }) {
 		const host = req === undefined ? '' : 'http://127.0.0.1:3000';
-		const result = await axios.post(`${host}/book/detail/${params.index}`);
+		const pIdx = params.index;
+		const result = await axios.post(`${host}/book/detail/${pIdx}`);
+		const result2 = await axios.post(`${host}/comment/read/${pIdx}/1`);
 		return {
-			book_data: result.data.data
+			book_data: result.data.data,
+			comment_data: result2.data.data
 		}
 	},
 	data () {
@@ -77,6 +83,7 @@ export default {
 	methods: {
 	},
 	components: {
+		CommentList
 	}
 }
 </script>

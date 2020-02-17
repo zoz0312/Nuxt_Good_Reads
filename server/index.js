@@ -59,6 +59,7 @@ app.use('/profile', ssr_chk_middle);
 app.use('/book/mybook', ssr_chk_middle);
 
 app.use('/book/modify', post_chk_middle);
+app.use('/comment/write', post_chk_middle);
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */
