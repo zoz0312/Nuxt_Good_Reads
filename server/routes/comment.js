@@ -14,7 +14,7 @@ router.post('/read/:bookIdx/:page', async (req, res, next) => {
 	const s_page = e_page - view_count;
 
 	let query = '';
-	query += `SELECT c.comment, c.star, c.date, b.title,user.user_id, user.nickname, user.profile\n`;
+	query += `SELECT c.comment, c.star, c.create_date, b.idx as bookIdx, b.title,user.user_id, user.nickname, user.profile\n`;
 	query += `FROM COMMENT_TBL AS c\n`;
 	query += `LEFT JOIN BOOK_TBL AS b\n`;
 	query += `ON c.book_idx = b.idx `;
@@ -36,16 +36,19 @@ router.post('/read/:bookIdx/:page', async (req, res, next) => {
 });
 
 router.post('/write', async (req, res, next) => {
+	/* POST */
 	const user_idx = req.session.passport.idx;
-	const book_idx = req.post('book_idx');
+	const book_idx = req.post('bookIdx');
 	const comment = req.post('comment');
 	const star = req.post('star');
-
+	
 	let query = '';
 	query += `INSERT INTO COMMENT_TBL\n`;
-	query += `(user_idx, book_idx, date, comment, star) VALUES\n`;
+	query += `(user_idx, book_idx, create_date, comment, star) VALUES\n`;
 	query += `(${user_idx}, ${book_idx}, NOW(), '${comment}', ${star});`;
+	mysql.open();
 	await mysql.query(query);
+	mysql.close();
 	lib.rtn.success = await mysql.commit();
 	res.json(lib.rtn_result());
 });
@@ -97,7 +100,7 @@ router.post('/profile/:page', async (req, res, next) => {
 		const e_page = p_num * 10;
 		const s_page = e_page - 10;
 		let query = '';
-		query += `SELECT c.comment, c.star, c.date, b.title\n`;
+		query += `SELECT c.comment, c.star, c.create_date, b.title\n`;
 		query += `FROM COMMENT_TBL AS c\n`;
 		query += `LEFT JOIN BOOK_TBL AS b\n`;
 		query += `ON c.book_idx = b.idx`;

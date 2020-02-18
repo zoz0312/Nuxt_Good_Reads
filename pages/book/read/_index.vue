@@ -76,14 +76,15 @@ export default {
 		const result2 = await axios.post(`${host}/comment/read/${pIdx}/1`);
 		return {
 			book_data: result.data.data,
-			comment_data: result2.data.data
+			comment_data: result2.data.data,
+			default_write: [{ 'bookIdx': pIdx }]
 		}
 	},
 	data () {
 		return {
 			book_data: null,
 			comment_data: null,
-			default_write: [{}]
+			default_write: [{ 'bookIdx': 0 }]
 		}
 	},
 	methods: {
