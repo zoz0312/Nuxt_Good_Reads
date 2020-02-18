@@ -1,15 +1,22 @@
 <template>
 	<div>
-		{{ commentInfo }}
 		<div
+			class="my-3"
 			v-for="(item, idx) in commentInfo"
 			v-bind:key="idx"
 		>
 			<CommentCard
 				v-bind:item="item"
+				v-bind:type="type"
 			/>
-			<button>수정하기</button>
-			<v-btn color="primary" @click="write">작성하기</v-btn>
+			<v-btn
+				v-if="commentInfo.user_id === $store.state.authUser"
+				color="primary"
+				@click="write">수정하기</v-btn>
+			<v-btn
+				v-if="type === 'write'"
+				color="primary"
+				@click="write">작성하기</v-btn>
 		</div>
 	</div>
 </template>
@@ -25,7 +32,7 @@ import '~/mixin'
 import CommentCard from '~/components/Comment/CommentCard'
 
 export default {
-	props: ['commentInfo'],
+	props: ['commentInfo', 'type'],
 	data () {
 		return {
 		}

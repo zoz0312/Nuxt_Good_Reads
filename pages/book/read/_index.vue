@@ -43,7 +43,11 @@
 			</v-card-actions>
 		</v-card>
 		<CommentList
-			v-bind:commentInfo="comment_data"/>
+			v-bind:commentInfo="default_write"
+			v-bind:type="'write'"/>
+		<CommentList
+			v-bind:commentInfo="comment_data"
+			v-bind:type="'read'"/>
 	</div>
 </template>
 
@@ -77,7 +81,9 @@ export default {
 	},
 	data () {
 		return {
-			book_data: null
+			book_data: null,
+			comment_data: null,
+			default_write: [{}]
 		}
 	},
 	methods: {

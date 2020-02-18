@@ -14,14 +14,15 @@ router.post('/read/:bookIdx/:page', async (req, res, next) => {
 	const s_page = e_page - view_count;
 
 	let query = '';
-	query += `SELECT c.comment, c.star, c.date, b.title\n`;
+	query += `SELECT c.comment, c.star, c.date, b.title,user.user_id, user.nickname, user.profile\n`;
 	query += `FROM COMMENT_TBL AS c\n`;
 	query += `LEFT JOIN BOOK_TBL AS b\n`;
 	query += `ON c.book_idx = b.idx `;
+	query += `LEFT JOIN USER_TBL AS user\n`;
+	query += `ON user.idx = c.user_idx\n`;
 	query += `WHERE c.book_idx = ${req.params.bookIdx}\n`;
 	query += `ORDER BY c.idx DESC LIMIT ${s_page}, ${e_page};`;
-	
-	console.log('query', query);
+
 	mysql.open();
 	const result = await mysql.query(query);
 	if( result.length !== 0 ){
