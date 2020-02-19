@@ -24,9 +24,9 @@
 			<div>
 				<v-textarea
 						name="input-7-1"
-						label="Default style"
+						label="댓글 입력"
 						v-model="item.comment"
-						hint="Hint text"
+						hint="작품의 소감을 남겨주세요."
 					></v-textarea>
 			</div>
 			<v-rating v-model="item.star"></v-rating>

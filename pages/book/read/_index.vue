@@ -43,11 +43,9 @@
 			</v-card-actions>
 		</v-card>
 		<CommentList
-			v-bind:commentInfo="default_write"
-			v-bind:type="'write'"/>
+			v-bind:commentInfo="default_write"/>
 		<CommentList
-			v-bind:commentInfo="comment_data"
-			v-bind:type="'read'"/>
+			v-bind:commentInfo="comment_data"/>
 	</div>
 </template>
 
@@ -74,10 +72,13 @@ export default {
 		const pIdx = params.index;
 		const result = await axios.post(`${host}/book/detail/${pIdx}`);
 		const result2 = await axios.post(`${host}/comment/read/${pIdx}/1`);
+		for (let i = 0; i < result2.data.data.length; i++) {
+			result2.data.data[i].type = 'read';
+		}
 		return {
 			book_data: result.data.data,
 			comment_data: result2.data.data,
-			default_write: [{ 'bookIdx': pIdx }]
+			default_write: [{ 'bookIdx': pIdx, 'type': 'write' }]
 		}
 	},
 	data () {

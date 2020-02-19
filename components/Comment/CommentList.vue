@@ -7,14 +7,21 @@
 		>
 			<CommentCard
 				v-bind:item="item"
-				v-bind:type="type"
+				v-bind:type="item.type"
 			/>
 			<v-btn
-				v-if="commentInfo.user_id === $store.state.authUser"
+				v-if="item.user_id === $store.state.authUser &&
+				item.type === 'read'"
 				color="primary"
-				@click="axios_comment(idx, 'fix')">수정하기</v-btn>
+				@click="backupData(idx)">수정하기</v-btn>
 			<v-btn
-				v-if="type === 'write'"
+				v-if="item.user_id === $store.state.authUser &&
+				item.user_id !== null &&
+				item.type === 'write'"
+				color="primary"
+				@click="restoreData(idx)">수정취소</v-btn>
+			<v-btn
+				v-if="item.type === 'write'"
 				color="primary"
 				@click="axios_comment(idx, 'write')">작성하기</v-btn>
 		</div>
@@ -30,12 +37,28 @@ import '~/mixin'
 import CommentCard from '~/components/Comment/CommentCard'
 
 export default {
-	props: ['commentInfo', 'type'],
+	props: ['commentInfo'],
 	data () {
 		return {
+			commentType: [],
+			origValue: []
 		}
 	},
 	methods: {
+		backupData (idx) {
+			this.commentInfo[idx].type = 'write';
+			if (this.origValue[idx] === undefined) {
+				this.origValue[idx] = {};
+			}
+			this.origValue[idx].comment = this.commentInfo[idx].comment;
+			this.origValue[idx].star = this.commentInfo[idx].star;
+		},
+		restoreData (idx) {
+			this.commentInfo[idx].type = 'read';
+			console.log(idx);
+			this.commentInfo[idx].comment = this.origValue[idx].comment;
+			this.commentInfo[idx].star = this.origValue[idx].star;
+		},
 		axios_comment (listIdx, type) {
 			console.log('d', listIdx);
 			const authUser = this.$store.state.authUser;
