@@ -3,8 +3,7 @@
 		<div
 			class="my-3"
 			v-for="(item, idx) in commentInfo"
-			v-bind:key="idx"
-		>
+			v-bind:key="idx">
 			<CommentCard
 				v-bind:item="item"
 				v-bind:type="item.type"
@@ -17,13 +16,13 @@
 			<v-btn
 				v-if="item.user_id === $store.state.authUser &&
 				item.user_id !== null &&
-				item.type === 'write'"
+				item.type === 'fix'"
 				color="primary"
 				@click="restoreData(idx)">수정취소</v-btn>
 			<v-btn
-				v-if="item.type === 'write'"
+				v-if="item.type !== 'read'"
 				color="primary"
-				@click="axios_comment(idx, 'write')">작성하기</v-btn>
+				@click="axios_comment(idx)">작성하기</v-btn>
 		</div>
 	</div>
 </template>
@@ -46,7 +45,7 @@ export default {
 	},
 	methods: {
 		backupData (idx) {
-			this.commentInfo[idx].type = 'write';
+			this.commentInfo[idx].type = 'fix';
 			if (this.origValue[idx] === undefined) {
 				this.origValue[idx] = {};
 			}
@@ -55,13 +54,13 @@ export default {
 		},
 		restoreData (idx) {
 			this.commentInfo[idx].type = 'read';
-			console.log(idx);
 			this.commentInfo[idx].comment = this.origValue[idx].comment;
 			this.commentInfo[idx].star = this.origValue[idx].star;
 		},
-		axios_comment (listIdx, type) {
-			console.log('d', listIdx);
+		axios_comment (listIdx) {
+			const type = this.commentInfo[listIdx].type;
 			const authUser = this.$store.state.authUser;
+			const commentIdx = this.commentInfo[listIdx].commentIdx;
 			const bookIdx = this.commentInfo[listIdx].bookIdx;
 			const comment = this.commentInfo[listIdx].comment;
 			const star = this.commentInfo[listIdx].star;
@@ -73,11 +72,11 @@ export default {
 
 			const d = {
 				user_id: authUser,
+				commentIdx,
 				bookIdx,
 				comment,
 				star
 			};
-			console.log('d', d);
 
 			if (type === 'write') {
 				axios.post('/comment/write', d).then(() => {
@@ -85,8 +84,12 @@ export default {
 				}).catch((err) => {
 					console.log('err', err)
 				});
-			} else if (type === 'read') {
-				console.log('read');
+			} else if (type === 'fix') {
+				axios.post(`/comment/update`, d).then(() => {
+					console.log('success!');
+				}).catch((err) => {
+					console.log('err', err)
+				});
 			}
 			/*
 			if (this.commentInfo.type === 'add') {
