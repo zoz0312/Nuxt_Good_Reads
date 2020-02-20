@@ -36,14 +36,34 @@ import '~/mixin'
 import CommentCard from '~/components/Comment/CommentCard'
 
 export default {
-	props: ['commentInfo'],
+	props: ['init', 'pIdx'],
 	data () {
 		return {
-			commentType: [],
+			commentInfo: [],
 			origValue: []
 		}
 	},
+	mounted () {
+		console.log('created');
+		if (this.init === 'write') {
+			this.commentInfo = [{ 'bookIdx': this.pIdx, 'type': 'write' }];
+		} else if (this.init === 'read') {
+			this.getData(1, false);
+		}
+	},
 	methods: {
+		async getData (page, flag) {
+			const result = await axios.post(`/comment/read/${this.pIdx}/${page}`, { flag });
+			for (let i = 0; i < result.data.data.length; i++) {
+				result.data.data[i].type = 'read';
+			}
+			if (flag) {
+				this.commentInfo = result.data.data;
+			} else {
+				/* this.commentInfo.push(...result.data.data); */
+				this.commentInfo = result.data.data;
+			}
+		},
 		backupData (idx) {
 			this.commentInfo[idx].type = 'fix';
 			if (this.origValue[idx] === undefined) {
@@ -80,33 +100,17 @@ export default {
 
 			if (type === 'write') {
 				axios.post('/comment/write', d).then(() => {
-					console.log('success!');
+					this.getData(1, true);
 				}).catch((err) => {
 					console.log('err', err)
 				});
 			} else if (type === 'fix') {
 				axios.post(`/comment/update`, d).then(() => {
-					console.log('success!');
+					this.commentInfo[listIdx].type = 'read';
 				}).catch((err) => {
 					console.log('err', err)
 				});
 			}
-			/*
-			if (this.commentInfo.type === 'add') {
-				axios.post('/book/write', d).then(() => {
-					console.log('success!');
-				}).catch((err) => {
-					console.log('err', err)
-				});
-			} else if (this.commentInfo.type === 'fix') {
-				axios.post(`/book/modify/${this.commentInfo.idx}`, d).then(() => {
-					console.log('success fix!');
-				}).catch((err) => {
-					console.log('err', err)
-				});
-			}
-			*/
-			console.log('commentInfo', this.commentInfo);
 		}
 	},
 	components: {
