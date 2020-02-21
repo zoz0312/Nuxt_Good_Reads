@@ -24,7 +24,6 @@
 				color="primary"
 				@click="axios_comment(idx)">작성하기</v-btn>
 		</div>
-		{{ commentInfo }}
 	</div>
 </template>
 
@@ -58,13 +57,14 @@ export default {
 				result.data.data[i].type = 'read';
 			}
 			if (flag) {
+				console.log('commment', this.commentInfo);
 				this.commentInfo.splice(0);
 			}
 			if (this.init === 'write') {
 				this.commentInfo = [{ 'bookIdx': this.pIdx, 'type': 'write' }];
 				this.callUpdate();
 			} else if (this.init === 'read') {
-				this.commentInfo = Object.assign({}, result.data.data);
+				this.commentInfo = Object.assign([], result.data.data);
 			}
 		},
 		backupData (idx) {
