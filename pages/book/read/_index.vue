@@ -44,10 +44,12 @@
 		</v-card>
 		<CommentList
 			v-bind:init="'write'"
-			v-bind:pIdx="pIdx"/>
+			v-bind:pIdx="pIdx"
+			v-on:update="callCommentUpdate"/>
 		<CommentList
 			v-bind:init="'read'"
-			v-bind:pIdx="pIdx"/>
+			v-bind:pIdx="pIdx"
+			ref="readComment"/>
 	</div>
 </template>
 
@@ -85,6 +87,9 @@ export default {
 		}
 	},
 	methods: {
+		callCommentUpdate () {
+			this.$refs.readComment.getData(1, true);
+		}
 	},
 	components: {
 		CommentList

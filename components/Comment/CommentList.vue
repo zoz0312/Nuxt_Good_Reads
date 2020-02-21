@@ -24,6 +24,7 @@
 				color="primary"
 				@click="axios_comment(idx)">작성하기</v-btn>
 		</div>
+		{{ commentInfo }}
 	</div>
 </template>
 
@@ -44,7 +45,6 @@ export default {
 		}
 	},
 	mounted () {
-		console.log('created');
 		if (this.init === 'write') {
 			this.commentInfo = [{ 'bookIdx': this.pIdx, 'type': 'write' }];
 		} else if (this.init === 'read') {
@@ -58,10 +58,13 @@ export default {
 				result.data.data[i].type = 'read';
 			}
 			if (flag) {
-				this.commentInfo = result.data.data;
-			} else {
-				/* this.commentInfo.push(...result.data.data); */
-				this.commentInfo = result.data.data;
+				this.commentInfo.splice(0);
+			}
+			if (this.init === 'write') {
+				this.commentInfo = [{ 'bookIdx': this.pIdx, 'type': 'write' }];
+				this.callUpdate();
+			} else if (this.init === 'read') {
+				this.commentInfo = Object.assign({}, result.data.data);
 			}
 		},
 		backupData (idx) {
@@ -111,6 +114,9 @@ export default {
 					console.log('err', err)
 				});
 			}
+		},
+		callUpdate () {
+			this.$emit('update');
 		}
 	},
 	components: {

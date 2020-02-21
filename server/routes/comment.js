@@ -12,7 +12,6 @@ router.post('/read/:bookIdx/:page', (req, res, next) => {
 	const p_num = req.params.page;
 	const e_page = p_num * view_count;
 	const s_page = e_page - view_count;
-	const flag = req.post('flag');
 
 	let query = '';
 	query += `SELECT c.idx AS commentIdx, c.comment, c.star, c.create_date, b.idx as bookIdx, b.title,user.user_id, user.nickname, user.profile\n`;
@@ -23,11 +22,7 @@ router.post('/read/:bookIdx/:page', (req, res, next) => {
 	query += `ON user.idx = c.user_idx\n`;
 	query += `WHERE c.book_idx = ${req.params.bookIdx}\n`;
 	query += `ORDER BY c.idx `;
-	if( flag ){
-		query += `DESC LIMIT 0, 1;`;
-	} else {
-		query += `DESC LIMIT ${s_page}, ${e_page};`;
-	}
+	query += `DESC LIMIT ${s_page}, ${e_page};`;
 
 	mysql.open();
 	mysql.query(query).then((result) => {
