@@ -24,6 +24,10 @@
 				color="primary"
 				@click="axios_comment(idx)">작성하기</v-btn>
 		</div>
+		<v-btn
+			v-show="more"
+			color="primary"
+			@click="getData(++commentPage, false)">더보기</v-btn>
 	</div>
 </template>
 
@@ -40,7 +44,9 @@ export default {
 	data () {
 		return {
 			commentInfo: [],
-			origValue: []
+			origValue: [],
+			commentPage: 1,
+			more: true
 		}
 	},
 	mounted () {
@@ -64,7 +70,8 @@ export default {
 				this.commentInfo = [{ 'bookIdx': this.pIdx, 'type': 'write' }];
 				this.callUpdate();
 			} else if (this.init === 'read') {
-				this.commentInfo = Object.assign([], result.data.data);
+				this.more = result.data.data.length === 5;
+				this.commentInfo.push(...result.data.data);
 			}
 		},
 		backupData (idx) {

@@ -22,7 +22,7 @@ router.post('/read/:bookIdx/:page', (req, res, next) => {
 	query += `ON user.idx = c.user_idx\n`;
 	query += `WHERE c.book_idx = ${req.params.bookIdx}\n`;
 	query += `ORDER BY c.idx `;
-	query += `DESC LIMIT ${s_page}, ${e_page};`;
+	query += `DESC LIMIT ${s_page}, ${view_count};`;
 
 	mysql.open();
 	mysql.query(query).then((result) => {
