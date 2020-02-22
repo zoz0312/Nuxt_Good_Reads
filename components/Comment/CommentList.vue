@@ -36,7 +36,6 @@
 				@click="axios_comment(idx)">작성하기</v-btn>
 		</div>
 		<v-btn
-			v-if="commentAvg.commentCnt%5 !== 0"
 			v-show="more"
 			color="primary"
 			@click="getData(++commentPage, false)">더보기</v-btn>
