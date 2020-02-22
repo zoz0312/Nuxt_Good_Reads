@@ -3,7 +3,7 @@ const post_chk = (req, res, next) => {
 	if( req.method === 'POST' ){
 		const user_id = req.post('user_id');
 		const sess_id = req.session.passport.user_id;
- user_id === sess_id ){
+		if( user_id === sess_id ){
 			console.log('post_chk PASS!');
 			next();
 		} else {
