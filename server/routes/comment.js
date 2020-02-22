@@ -5,6 +5,31 @@ let lib = new libs();
 const database = require('../modules/mysql');
 let mysql = new database();
 
+router.post('/read/profile/:page', async (req, res, next) => {
+	/* POST CHECK */
+	const user_id = req.post('user_id');
+	const view_count = 5;
+	const p_num = req.params.page;
+	const e_page = p_num * view_count;
+	const s_page = e_page - view_count;
+
+	let query = '';
+	query += `SELECT c.idx AS commentIdx, c.comment, c.star, c.create_date, b.idx as bookIdx, b.title, user.user_id, user.nickname, user.profile\n`;
+	query += `FROM COMMENT_TBL AS c\n`;
+	query += `LEFT JOIN BOOK_TBL AS b\n`;
+	query += `ON c.book_idx = b.idx `;
+	query += `LEFT JOIN USER_TBL AS user\n`;
+	query += `ON user.idx = c.user_idx\n`;
+	query += `WHERE c.user_idx = (`;
+	query += `SELECT idx FROM USER_TBL WHERE user_id = '${user_id}'`;
+	query += `)\n`;
+	query += `ORDER BY c.idx `;
+	query += `DESC LIMIT ${s_page}, ${view_count};`;
+	const result = await mysql.query(query);
+	lib.rtn.success = true;
+	lib.rtn.data = result;
+	res.json(lib.rtn_result());
+});
 
 router.post('/read/:bookIdx/:page', (req, res, next) => {
 	/* NO POST CHECK */
@@ -14,7 +39,7 @@ router.post('/read/:bookIdx/:page', (req, res, next) => {
 	const s_page = e_page - view_count;
 
 	let query = '';
-	query += `SELECT c.idx AS commentIdx, c.comment, c.star, c.create_date, b.idx as bookIdx, b.title,user.user_id, user.nickname, user.profile\n`;
+	query += `SELECT c.idx AS commentIdx, c.comment, c.star, c.create_date, b.idx as bookIdx, b.title, user.user_id, user.nickname, user.profile\n`;
 	query += `FROM COMMENT_TBL AS c\n`;
 	query += `LEFT JOIN BOOK_TBL AS b\n`;
 	query += `ON c.book_idx = b.idx `;
@@ -122,30 +147,6 @@ router.post('/delete/:idx', async (req, res, next) => {
 	res.json(lib.rtn_result());
 });
 
-router.post('/profile/:page', async (req, res, next) => {
-	const user_id = req.body.user_id;
-	const sess_id = req.session.passport.user_id;
-	
-	if( user_id === sess_id ){
-		const user_idx = req.session.passport.idx;
-		const p_num = req.params.page;
-		const e_page = p_num * 10;
-		const s_page = e_page - 10;
-		let query = '';
-		query += `SELECT c.comment, c.star, c.create_date, b.title\n`;
-		query += `FROM COMMENT_TBL AS c\n`;
-		query += `LEFT JOIN BOOK_TBL AS b\n`;
-		query += `ON c.book_idx = b.idx`;
-		query += `WHERE c.user_idx = ${user_idx}\n`;
-		query += `ORDER BY c.idx DESC LIMIT ${s_page}, ${e_page};`;
-		const result = await mysql.query(query);
-		lib.rtn.success = true;
-		lib.rtn.data = result;
-	} else {
-		lib.rtn.data = '접근 권한이 없습니다.';
-	}
-	res.json(lib.rtn_result());
-});
 
 module.exports = router;
 

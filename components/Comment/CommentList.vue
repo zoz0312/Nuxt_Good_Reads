@@ -76,7 +76,7 @@ export default {
 			this.commentAvg = result.data.data;
 		},
 		async getData (page, flag) {
-			const result = await axios.post(`/comment/read/${this.pIdx}/${page}`, { flag });
+			const result = await axios.post(`/comment/read/${this.pIdx}/${page}`, { user_id: this.$store.state.authUser });
 			for (let i = 0; i < result.data.data.length; i++) {
 				result.data.data[i].type = 'read';
 			}
