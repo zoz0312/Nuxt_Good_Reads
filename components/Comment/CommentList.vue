@@ -1,5 +1,16 @@
 <template>
 	<div>
+		<div v-if="init === 'read'">
+			<div>
+				댓글 갯수 : <span>{{ commentAvg.commentCnt }}</span>개
+			</div><div>
+				별점 : <span>{{ commentAvg.avgStar }}</span>
+			</div>
+			<v-rating
+				v-model="commentAvg.avgStar"
+				half-increments
+			></v-rating>
+		</div>
 		<div
 			class="my-3"
 			v-for="(item, idx) in commentInfo"
@@ -25,6 +36,7 @@
 				@click="axios_comment(idx)">작성하기</v-btn>
 		</div>
 		<v-btn
+			v-if="commentAvg.commentCnt%5 !== 0"
 			v-show="more"
 			color="primary"
 			@click="getData(++commentPage, false)">더보기</v-btn>
@@ -45,6 +57,7 @@ export default {
 		return {
 			commentInfo: [],
 			origValue: [],
+			commentAvg: {},
 			commentPage: 1,
 			more: true
 		}
@@ -53,10 +66,16 @@ export default {
 		if (this.init === 'write') {
 			this.commentInfo = [{ 'bookIdx': this.pIdx, 'type': 'write' }];
 		} else if (this.init === 'read') {
+			this.getSubData();
 			this.getData(1, false);
 		}
 	},
 	methods: {
+		async getSubData () {
+			const result = await axios.post(`/comment/info/${this.pIdx}`);
+			console.log('result', result.data.data);
+			this.commentAvg = result.data.data;
+		},
 		async getData (page, flag) {
 			const result = await axios.post(`/comment/read/${this.pIdx}/${page}`, { flag });
 			for (let i = 0; i < result.data.data.length; i++) {
@@ -70,6 +89,7 @@ export default {
 				this.commentInfo = [{ 'bookIdx': this.pIdx, 'type': 'write' }];
 				this.callUpdate();
 			} else if (this.init === 'read') {
+				this.getSubData();
 				this.more = result.data.data.length === 5;
 				this.commentInfo.push(...result.data.data);
 			}

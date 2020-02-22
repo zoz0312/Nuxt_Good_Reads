@@ -41,6 +41,28 @@ router.post('/read/:bookIdx/:page', (req, res, next) => {
 	});
 });
 
+router.post('/info/:bookIdx', (req, res, next) => {
+	const p_num = req.params.page;
+
+	let query = '';
+	query += `SELECT COUNT(idx) AS commentCnt, `;
+	query += `ROUND(AVG(star), 1) AS avgStar `;
+	query += `FROM COMMENT_TBL `;
+	query += `WHERE book_idx = ${req.params.bookIdx};`;
+
+	mysql.open();
+	mysql.query(query).then((result) => {
+		console.log('query rtn', result);
+		lib.rtn.data = result[0];
+		res.json(lib.rtn_result());
+		mysql.close();
+	}).catch((err) => {
+		console.log('comment read err', err);
+		res.json(lib.rtn_result());
+		mysql.close();
+	});
+});
+
 router.post('/write', async (req, res, next) => {
 	/* POST */
 	const user_idx = req.session.passport.idx;
