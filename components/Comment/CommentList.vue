@@ -9,6 +9,7 @@
 			<v-rating
 				v-model="commentAvg.avgStar"
 				half-increments
+				readonly
 			></v-rating>
 		</div>
 		<div
@@ -38,6 +39,7 @@
 		<v-btn
 			v-show="more"
 			color="primary"
+			v-if="init === 'read'"
 			@click="getData(++commentPage, false)">더보기</v-btn>
 	</div>
 </template>
