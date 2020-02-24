@@ -48,6 +48,9 @@
 			</v-card-actions>
 		</v-card>
 		<BookList v-bind:bookinfo="book_data"/>
+		<CommentList
+			v-bind:init="'read'"
+			v-bind:pIdx="'profile'"/>
 	</div>
 </template>
 
@@ -55,6 +58,7 @@
 import axios from 'axios'
 import '~/mixin'
 import BookList from '~/components/BookList/BookList'
+import CommentList from '~/components/Comment/CommentList'
 
 export default {
 	middleware: 'auth',
@@ -98,7 +102,8 @@ export default {
 	methods: {
 	},
 	components: {
-		BookList
+		BookList,
+		CommentList
 	}
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="init === 'read'">
+		<div v-if="init === 'read' && pIdx !== 'profile'">
 			<div>
 				댓글 갯수 : <span>{{ commentAvg.commentCnt }}</span>개
 			</div><div>
@@ -71,6 +71,9 @@ export default {
 	},
 	methods: {
 		async getSubData () {
+			if (this.pIdx === 'profile') {
+				return;
+			}
 			const result = await axios.post(`/comment/info/${this.pIdx}`);
 			console.log('result', result.data.data);
 			this.commentAvg = result.data.data;

@@ -5,7 +5,7 @@ let lib = new libs();
 const database = require('../modules/mysql');
 let mysql = new database();
 
-router.post('/read/profile/:page', async (req, res, next) => {
+router.post('/read/profile/:page', (req, res, next) => {
 	/* POST CHECK */
 	const user_id = req.post('user_id');
 	const view_count = 5;
@@ -20,15 +20,24 @@ router.post('/read/profile/:page', async (req, res, next) => {
 	query += `ON c.book_idx = b.idx `;
 	query += `LEFT JOIN USER_TBL AS user\n`;
 	query += `ON user.idx = c.user_idx\n`;
-	query += `WHERE c.user_idx = (`;
-	query += `SELECT idx FROM USER_TBL WHERE user_id = '${user_id}'`;
-	query += `)\n`;
+	query += `WHERE user.user_id = '${user_id}'\n`;
 	query += `ORDER BY c.idx `;
 	query += `DESC LIMIT ${s_page}, ${view_count};`;
-	const result = await mysql.query(query);
-	lib.rtn.success = true;
-	lib.rtn.data = result;
-	res.json(lib.rtn_result());
+	mysql.open();
+	mysql.query(query).then((result) => {
+		if( result.length !== 0 ){
+			lib.rtn.success = true;
+			lib.rtn.data = result;
+		} else {
+			lib.rtn.data = 'no data';
+		}
+		res.json(lib.rtn_result());
+		mysql.close();
+	}).catch((err) => {
+		console.log('comment read err', err);
+		res.json(lib.rtn_result());
+		mysql.close();
+	});
 });
 
 router.post('/read/:bookIdx/:page', (req, res, next) => {

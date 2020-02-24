@@ -3,10 +3,19 @@
 		<v-card-text
 			v-if="type === 'read'">
 			<div class="subtitle-2">
-				<v-list-item-avatar>
-					<v-img v-if="item.profile" :src="item.profile"></v-img>
-				</v-list-item-avatar>
-				{{ item.nickname }}
+				<v-list-item>
+					<v-list-item-avatar>
+						<v-img v-if="item.profile" :src="item.profile"></v-img>
+					</v-list-item-avatar>
+					<v-list-item-content>
+						<v-list-item-title class="headline">
+							{{ item.nickname }}
+						</v-list-item-title>
+						<v-list-item-subtitle>
+							{{ item.title }}
+						</v-list-item-subtitle>
+					</v-list-item-content>
+				</v-list-item>
 			</div>
 			<div class="text-area">
 				{{ item.comment }}
