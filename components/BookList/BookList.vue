@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="text-center">
 		<BookCard
 			v-for="(item, idx) in bookinfo"
 			v-bind:key="idx"

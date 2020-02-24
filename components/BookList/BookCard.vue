@@ -4,11 +4,12 @@
 	>
 		<v-card
 			max-width="220"
+			class="d-inline-block ma-4 text-left"
 		>
 		<v-img
 			class="white--text align-end"
 			height="200px"
-			src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+			:src="item.image"
 		/>
 			<v-card-title class="">
 				{{ item.title }}
@@ -32,4 +33,7 @@ export default {
 </script>
 
 <style scope>
+a {
+	text-decoration:none;
+}
 </style>
