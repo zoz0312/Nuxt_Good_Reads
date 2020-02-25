@@ -47,18 +47,12 @@
 				<v-btn color="primary" @click="">수정?</v-btn>
 			</v-card-actions>
 		</v-card>
-		<BookList v-bind:bookinfo="book_data"/>
-		<CommentList
-			v-bind:init="'read'"
-			v-bind:pIdx="'profile'"/>
 	</div>
 </template>
 
 <script>
 import axios from 'axios'
 import '~/mixin'
-import BookList from '~/components/BookList/BookList'
-import CommentList from '~/components/Comment/CommentList'
 
 export default {
 	middleware: 'auth',
@@ -81,10 +75,8 @@ export default {
 			user_pw: req.session.passport.user_pw
 		}
 		const result = await axios.post(`${host}/profile/read`, d);
-		const result2 = await axios.post(`${host}/book/mybook/1`, d);
 		return {
-			user_data: result.data.data,
-			book_data: result2.data.data
+			user_data: result.data.data
 		}
 	},
 	data () {
@@ -95,15 +87,12 @@ export default {
 					value => (value && value.length >= 3) || 'Min 3 characters'
 				]
 			},
-			user_data: null,
-			book_data: null
+			user_data: null
 		}
 	},
 	methods: {
 	},
 	components: {
-		BookList,
-		CommentList
 	}
 }
 </script>

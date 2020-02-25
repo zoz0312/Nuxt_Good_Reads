@@ -50,16 +50,16 @@ export default {
 			dropdown_font: [
 				{
 					title: '내 정보',
-					to: '/profile'
+					to: '/profile/myinfo'
 				}, {
 					title: '즐겨찾기',
-					to: '/favorite'
+					to: '/profile/myfavorite'
 				}, {
 					title: '내가 쓴 책',
-					to: '/mybook'
+					to: '/profile/mybook'
 				}, {
 					title: '내가 쓴 댓글',
-					to: '/mycomment'
+					to: '/profile/mycomment'
 				}
 			]
 		}
