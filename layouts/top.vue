@@ -1,40 +1,45 @@
 <template>
-  <v-toolbar class="no-shadow">
+  <v-toolbar
+		max-width="240"
+		min-width="220"
+		class="no-shadow px-5">
 		<div id="dropdown-example"></div>
-			<v-menu offset-y>
+			<v-menu
+				offset-y
+				v-if="$store.state.authUser !== null">
 				<template v-slot:activator="{ on }">
 					<v-btn
 						color="primary"
-						dark
 						v-on="on"
 						depressed
 					>
-						Dropdown
+						개인 메뉴
 					</v-btn>
 				</template>
 				<v-list>
 					<v-list-item
 						v-for="(item, index) in dropdown_font"
 						:key="index"
-						@click=""
 					>
-						<v-list-item-title>{{ item.title }}</v-list-item-title>
+					<a :href="item.to">
+							<v-list-item-title>{{ item.title }}</v-list-item-title>
+					</a>
 					</v-list-item>
 				</v-list>
 			</v-menu>
-				<v-btn-toggle
-					group
-					color="primary"
-				>
-				<v-btn
-					v-if="$store.state.authUser === null"
-					:to="'/login'"
-				>Login</v-btn>
-				<v-btn
-					v-if="$store.state.authUser !== null"
-					@click="logout"
-				>Logout</v-btn>
-			</v-btn-toggle>
+			<v-btn-toggle
+				group
+				color="primary"
+			>
+			<v-btn
+				v-if="$store.state.authUser === null"
+				:to="'/login'"
+			>Login</v-btn>
+			<v-btn
+				v-if="$store.state.authUser !== null"
+				:to="'/logout'"
+			>Logout</v-btn>
+		</v-btn-toggle>
 	</v-toolbar>
 </template>
 
@@ -43,10 +48,19 @@ export default {
 	data () {
 		return {
 			dropdown_font: [
-				{ title: 'Arial' },
-				{ title: 'Calibri' },
-				{ title: 'Courier' },
-				{ title: 'Verdana' }
+				{
+					title: '내 정보',
+					to: '/profile'
+				}, {
+					title: '즐겨찾기',
+					to: '/favorite'
+				}, {
+					title: '내가 쓴 책',
+					to: '/mybook'
+				}, {
+					title: '내가 쓴 댓글',
+					to: '/mycomment'
+				}
 			]
 		}
 	},

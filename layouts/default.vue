@@ -25,11 +25,13 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
+			class="top-toolbar"
       :clipped-left="clipped"
       fixed
       app
     >
-		<v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+		<v-app-bar-nav-icon
+			@click.stop="drawer = !drawer" />
       <v-btn
         @click.stop="miniVariant = !miniVariant"
         icon
@@ -50,7 +52,8 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-				<Top />
+			<Top
+				width="200px"/>
     </v-app-bar>
     <v-content>
       <v-container>
@@ -66,6 +69,11 @@
   </v-app>
 </template>
 
+<style scope>
+.top-toolbar {
+	padding-left: 1rem;
+}
+</style>
 <script>
 import Top from '~/layouts/top'
 export default {
@@ -88,7 +96,7 @@ export default {
 			],
 			miniVariant: false,
 			right: true,
-			title: 'Vuetify.js'
+			title: 'GoodReads'
 		}
 	},
 	methods: {
