@@ -37,7 +37,7 @@
 			>Login</v-btn>
 			<v-btn
 				v-if="$store.state.authUser !== null"
-				:to="'/logout'"
+				@click="logout"
 			>Logout</v-btn>
 		</v-btn-toggle>
 	</v-toolbar>
@@ -53,7 +53,7 @@ export default {
 					to: '/profile/myinfo'
 				}, {
 					title: '즐겨찾기',
-					to: '/profile/myfavorite'
+					to: '/profile/mybookmark'
 				}, {
 					title: '내가 쓴 책',
 					to: '/profile/mybook'
@@ -65,6 +65,11 @@ export default {
 		}
 	},
 	methods: {
+		logout () {
+			this.$store.dispatch('logout').catch((err) => {
+				console.log('err', err);
+			})
+		}
 	}
 }
 </script>

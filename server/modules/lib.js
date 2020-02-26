@@ -17,6 +17,21 @@ function constructor(){
 		return tmp;
 	}
 }
+constructor.prototype.is_val = (val) => {
+	if( val === undefined ){
+		return false;
+	}
+	if( val === null ){
+		return false;
+	}
+	if( val === '' ){
+		return false;
+	}
+	if( val === NaN ){
+		return false;
+	}
+	return true;
+}
 constructor.prototype.auth = server_config.auth;
 constructor.prototype.salt = () => {
 	return Math.round((new Date().valueOf() * Math.random())) + '';

@@ -6,7 +6,7 @@ const ssr_post_chk = async (req, res, next) => {
 	const user_idx = req.post('idx');
 
 	if( req.method === 'POST' ){
-		if( user_pw === '' || user_idx === '' ){
+		if( user_pw === undefined || user_idx === undefined ){
 			res.json({ session: false, data: '로그인 후 이용해주세요.'});
 			res.end();
 		} else {

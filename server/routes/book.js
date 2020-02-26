@@ -36,9 +36,39 @@ router.post('/mybook/:page', async (req, res, next) => {
 
 router.post('/detail/:id', async (req, res, next) => {
 	/* NO POST CHECK */
-	let query = '';
-	query += `SELECT * FROM BOOK_TBL WHERE idx = '${req.params.id}';`;
+	const user_idx = req.post('idx');
+	const user_pw = req.post('user_pw');
+
 	mysql.open();
+	
+	let flag = false;
+	
+	if( lib.is_val(user_idx) && lib.is_val(user_pw) ){
+		const is_user = `SELECT user_id FROM USER_TBL WHERE idx = ${user_idx} AND user_pw = '${user_pw}'`;
+		const result = await mysql.query(is_user);
+		if( result.length !== 0 ){
+			flag = true;	
+		}
+	}
+
+	let query = '';
+	if( flag ){
+		//user BookMark
+		query += `SELECT `;
+		query += `book.idx, book.title, book.author,`;
+		query += `book.contents, book.image, book.write_date,`;
+		query += `book.create_date, mk.status\n`;
+		query += `FROM BOOK_TBL AS book\n`;
+		query += `LEFT JOIN BOOKMARK_TBL AS mk\n`;
+		query += `ON book.idx = mk.book_idx\n`;
+		query += `LEFT JOIN USER_TBL AS user\n`;
+		query += `ON mk.user_idx = user.idx\n`;
+		query += `WHERE book.idx = '${req.params.id}'`;
+	} else {
+		//Non User
+		query += `SELECT * FROM BOOK_TBL WHERE idx = '${req.params.id}'`;
+	}
+
 	const result = await mysql.query(query);
 	if( result.length !== 0 ){
 		lib.rtn.success = true;

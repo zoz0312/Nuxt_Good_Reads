@@ -58,7 +58,10 @@ export default {
 		return {
 			commentInfo: [],
 			origValue: [],
-			commentAvg: {},
+			commentAvg: {
+				commentCnt: 0,
+				avgStar: 0
+			},
 			commentPage: 1,
 			more: true
 		}
@@ -77,16 +80,22 @@ export default {
 				return;
 			}
 			const result = await axios.post(`/comment/info/${this.pIdx}`);
-			console.log('result', result.data.data);
 			this.commentAvg = result.data.data;
 		},
 		async getData (page, flag) {
 			const result = await axios.post(`/comment/read/${this.pIdx}/${page}`, { user_id: this.$store.state.authUser });
+			if (result.data.data === 'no data') {
+				this.more = false;
+				this.commentAvg = {
+					commentCnt: 0,
+					avgStar: 0
+				}
+				return;
+			}
 			for (let i = 0; i < result.data.data.length; i++) {
 				result.data.data[i].type = 'read';
 			}
 			if (flag) {
-				console.log('commment', this.commentInfo);
 				this.commentInfo.splice(0);
 			}
 			if (this.init === 'write') {

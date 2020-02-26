@@ -100,11 +100,6 @@ export default {
 		}
 	},
 	methods: {
-		logout () {
-			this.$store.dispatch('logout').catch((err) => {
-				console.log('err', err);
-			})
-		}
 	},
 	components: {
 		Top
