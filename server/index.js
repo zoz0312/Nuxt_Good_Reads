@@ -50,13 +50,12 @@ passport.deserializeUser(function(user, done) {
 |* =========== Middle Ware ============ *|
 \* ==================================== */
 const post_middle = require('./modules/post');
-const ssr_chk_middle = require('./modules/ssr_post_chk');
 const post_chk_middle = require('./modules/post_chk');
 
 app.use(post_middle);
 
-app.use('/profile', ssr_chk_middle);
-app.use('/book/mybook', ssr_chk_middle);
+app.use('/profile', post_chk_middle);
+app.use('/book/mybook', post_chk_middle);
 
 app.use('/book/modify', post_chk_middle);
 app.use('/comment/write', post_chk_middle);
