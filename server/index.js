@@ -62,6 +62,8 @@ app.use('/book/modify', post_chk_middle);
 app.use('/comment/write', post_chk_middle);
 app.use('/comment/update', post_chk_middle);
 app.use('/comment/profile', post_chk_middle);
+app.use('/bookmark/add', post_chk_middle);
+app.use('/bookmark/del', post_chk_middle);
 /* ==================================== *\
 |* ============== Router ============== *|
 \* ==================================== */

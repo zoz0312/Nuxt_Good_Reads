@@ -1,7 +1,5 @@
 <template>
-	<nuxt-link
-		:to="'/book/read/' + item.idx"
-	>
+	<a :href="'/book/read/' + item.idx">
 		<v-card
 			max-width="220"
 			class="d-inline-block ma-4 text-left"
@@ -17,7 +15,7 @@
 			<v-card-subtitle class="py-0">지은이 : {{ item.author }}</v-card-subtitle>
 			<v-card-subtitle class="pt-0">출간일 : {{ item.create_date }}</v-card-subtitle>
 		</v-card>
-	</nuxt-link>
+	</a>
 </template>
 
 <script>

@@ -57,7 +57,7 @@ router.post('/detail/:id', async (req, res, next) => {
 		query += `SELECT `;
 		query += `book.idx, book.title, book.author,`;
 		query += `book.contents, book.image, book.write_date,`;
-		query += `book.create_date, mk.status\n`;
+		query += `book.create_date, mk.idx AS mkIdx, mk.status\n`;
 		query += `FROM BOOK_TBL AS book\n`;
 		query += `LEFT JOIN BOOKMARK_TBL AS mk\n`;
 		query += `ON book.idx = mk.book_idx\n`;

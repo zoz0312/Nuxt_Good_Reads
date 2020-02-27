@@ -13,7 +13,7 @@
 						v-if="$store.state.authUser !== null">
 						<v-icon
 							color="primary"
-							@click="bookMark('add')"
+							@click="bookMark('del')"
 							v-if="book_data.status === 1"
 							x-large
 						>mdi-bookmark-check</v-icon>
@@ -111,8 +111,26 @@ export default {
 		callCommentUpdate () {
 			this.$refs.readComment.getData(1, true);
 		},
-		bookMark (type) {
+		async bookMark (type) {
 			if (type === 'add') {
+				const d = {
+					pIdx: this.pIdx,
+					user_id: this.$store.state.authUser
+				}
+				const result = await axios.post(`/bookmark/add/${this.pIdx}`, d);
+				if (result.data.success) {
+					/* Alert */
+					this.book_data.status = 1;
+				}
+			} else if (type === 'del') {
+				const d = {
+					user_id: this.$store.state.authUser
+				}
+				const result = await axios.post(`/bookmark/del/${this.book_data.mkIdx}`, d);
+				if (result.data.success) {
+					/* Alert */
+					this.book_data.status = 0;
+				}
 			}
 		}
 	},
