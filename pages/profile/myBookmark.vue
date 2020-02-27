@@ -23,16 +23,8 @@ export default {
 			]
 		}
 	},
-	async asyncData ({ params, store, req }) {
-		const host = req === undefined ? '' : 'http://127.0.0.1:3000';
-		const d = {
-			idx: req.session.passport.idx,
-			user_pw: req.session.passport.user_pw
-		}
-		const result2 = await axios.post(`${host}/book/mybook/1`, d);
-		return {
-			book_data: result2.data.data
-		}
+	mounted () {
+		this.getMybook(1);
 	},
 	data () {
 		return {
@@ -42,10 +34,18 @@ export default {
 					value => (value && value.length >= 3) || 'Min 3 characters'
 				]
 			},
-			book_data: null
+			book_data: null,
+			bookmarkPage: 1
 		}
 	},
 	methods: {
+		async getMybook (page) {
+			const d = {
+				user_id: this.$store.state.authUser
+			}
+			const result = await axios.post(`/bookmark/mybook/${page}`, d);
+			this.book_data = result.data.data;
+		}
 	},
 	components: {
 		BookList

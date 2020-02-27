@@ -7,7 +7,6 @@ const database = require('../modules/mysql');
 let mysql = new database();
 
 router.post('/all/:page', async (req, res, next) => {
-	/* SSR POST */
 	const p_num = req.params.page;
 	const e_page = p_num * 10;
 	const s_page = e_page - 10;
@@ -21,13 +20,13 @@ router.post('/all/:page', async (req, res, next) => {
 });
 
 router.post('/mybook/:page', async (req, res, next) => {
-	/* SSR POST */
+	/* POST */
 	const idx = req.post('idx');
 	const p_num = req.params.page;
 	const e_page = p_num * 10;
 	const s_page = e_page - 10;
 	mysql.open();
-	let query = `SELECT idx, title, author, image FROM BOOK_TBL WHERE user_idx = '${idx}' ORDER BY idx DESC LIMIT ${s_page}, ${e_page};`;
+	let query = `SELECT idx, title, author, image FROM BOOK_TBL WHERE user_idx = '${idx}' ORDER BY idx DESC LIMIT ${s_page}, ${p_num};`;
 	const result = await mysql.query(query);
 	lib.rtn.success = true;
 	lib.rtn.data = result;
