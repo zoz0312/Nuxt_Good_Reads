@@ -100,7 +100,7 @@ export default {
 		const host = req === undefined ? '' : 'http://127.0.0.1:3000';
 		const pIdx = params.index;
 		let d = {};
-		if (req.session) {
+		if (req.session.passport) {
 			d = {
 				idx: req.session.passport.idx,
 				user_pw: req.session.passport.user_pw

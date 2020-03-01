@@ -52,8 +52,7 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-			<Top
-				width="200px"/>
+			<Top />
     </v-app-bar>
     <v-content>
       <v-container>

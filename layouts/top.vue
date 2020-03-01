@@ -1,7 +1,7 @@
 <template>
   <v-toolbar
-		max-width="240"
-		min-width="220"
+		max-width="380"
+		min-width="340"
 		class="no-shadow px-5">
 		<div id="dropdown-example"></div>
 			<v-menu
@@ -13,7 +13,7 @@
 						v-on="on"
 						depressed
 					>
-						개인 메뉴
+						나만의 메뉴
 					</v-btn>
 				</template>
 				<v-list>
@@ -22,7 +22,7 @@
 						:key="index"
 					>
 					<a :href="item.to">
-							<v-list-item-title>{{ item.title }}</v-list-item-title>
+						<v-list-item-title>{{ item.title }}</v-list-item-title>
 					</a>
 					</v-list-item>
 				</v-list>
@@ -31,6 +31,10 @@
 				group
 				color="primary"
 			>
+			<v-btn
+				v-if="$store.state.authUser !== null"
+				href="/book/add"
+			>책 추가하기</v-btn>
 			<v-btn
 				v-if="$store.state.authUser === null"
 				:to="'/login'"
@@ -76,7 +80,7 @@ export default {
 
 <style scope>
 .top-dropdown {
-	width: 200px;
+	width: 300px;
 	height: 64px;
 }
 .no-shadow {
