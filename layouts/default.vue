@@ -3,7 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
-      :clipped="clipped"
+      clipped
       fixed
       app
     >
@@ -26,7 +26,7 @@
     </v-navigation-drawer>
     <v-app-bar
 			class="top-toolbar"
-      :clipped-left="clipped"
+      clipped-left
       fixed
       app
     >
@@ -38,18 +38,6 @@
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
-      <v-btn
-        @click.stop="clipped = !clipped"
-        icon
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        @click.stop="fixed = !fixed"
-        icon
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
 			<Top />
@@ -60,7 +48,6 @@
       </v-container>
     </v-content>
     <v-footer
-      :fixed="fixed"
       app
     >
       <span>&copy; 2019</span>
@@ -78,19 +65,17 @@ import Top from '~/layouts/top'
 export default {
 	data () {
 		return {
-			clipped: false,
 			drawer: false,
-			fixed: false,
 			items: [
 				{
-					icon: 'mdi-apps',
-					title: 'Welcome',
+					icon: 'mdi-home',
+					title: 'Home',
 					to: '/'
 				},
 				{
-					icon: 'mdi-chart-bubble',
-					title: 'Inspire',
-					to: '/inspire'
+					icon: 'mdi-book-multiple',
+					title: '책 목록',
+					to: '/book/list'
 				}
 			],
 			miniVariant: false,
