@@ -21,7 +21,9 @@ import BookList from '~/components/BookList/BookList'
 export default {
 	data () {
 		return {
-			book_list: {}
+			book_list: [],
+			bookcnt: 1,
+			end_flag: false
 		}
 	},
 	async asyncData ({ params, req }) {
@@ -32,6 +34,26 @@ export default {
 		}
 	},
 	methods: {
+		handleScroll (e) {
+			const height = (window.innerHeight + window.scrollY) - document.body.offsetHeight;
+			if (height >= 0 && !this.end_flag) {
+				this.bookLoad();
+			}
+		},
+		async bookLoad () {
+			this.bookcnt++;
+			const { data } = await axios.post(`/book/all/${this.bookcnt}`);
+			if (data.data.length < 10) {
+				this.end_flag = true;
+			}
+			this.book_list.push(...data.data);
+		}
+	},
+	beforeMount () {
+		window.addEventListener('scroll', this.handleScroll);
+	},
+	beforeDestroy () {
+		window.body.removeEventListener('scroll', this.handleScroll);
 	},
 	mounted () {
 		/* this.getBookList(); */
