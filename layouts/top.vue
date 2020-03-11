@@ -3,34 +3,33 @@
 		max-width="380"
 		min-width="340"
 		class="no-shadow px-5">
-		<div id="dropdown-example"></div>
-			<v-menu
-				offset-y
-				v-if="$store.state.authUser !== null">
-				<template v-slot:activator="{ on }">
-					<v-btn
-						color="primary"
-						v-on="on"
-						depressed
-					>
-						나만의 메뉴
-					</v-btn>
-				</template>
-				<v-list>
-					<v-list-item
-						v-for="(item, index) in dropdown_font"
-						:key="index"
-					>
-					<a :href="item.to">
-						<v-list-item-title>{{ item.title }}</v-list-item-title>
-					</a>
-					</v-list-item>
-				</v-list>
-			</v-menu>
-			<v-btn-toggle
-				group
-				color="primary"
-			>
+		<v-menu
+			offset-y
+			v-if="$store.state.authUser !== null">
+			<template v-slot:activator="{ on }">
+				<v-btn
+					color="primary"
+					v-on="on"
+					depressed
+				>
+					나만의 메뉴
+				</v-btn>
+			</template>
+			<v-list>
+				<v-list-item
+					v-for="(item, index) in dropdown_font"
+					:key="index"
+				>
+				<a :href="item.to">
+					<v-list-item-title>{{ item.title }}</v-list-item-title>
+				</a>
+				</v-list-item>
+			</v-list>
+		</v-menu>
+		<v-btn-toggle
+			group
+			color="primary"
+		>
 			<v-btn
 				v-if="$store.state.authUser !== null"
 				href="/book/add"

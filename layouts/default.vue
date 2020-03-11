@@ -40,6 +40,8 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+			<Search />
+      <v-spacer />
 			<Top />
     </v-app-bar>
     <v-content>
@@ -62,6 +64,8 @@
 </style>
 <script>
 import Top from '~/layouts/top'
+import Search from '~/components/Search'
+
 export default {
 	data () {
 		return {
@@ -86,7 +90,8 @@ export default {
 	methods: {
 	},
 	components: {
-		Top
+		Top,
+		Search
 	}
 }
 </script>

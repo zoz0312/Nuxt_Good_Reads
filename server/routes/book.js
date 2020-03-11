@@ -19,6 +19,13 @@ router.post('/all/:page', async (req, res, next) => {
 	res.json(lib.rtn_result());
 });
 
+router.post('/search', async (req, res, next) => {
+	const keyword = req.post('keyword');
+	console.log('keyword', keyword);
+	lib.rtn.success = true;
+	res.json(lib.rtn_result());
+});
+
 router.post('/mybook/:page', async (req, res, next) => {
 	/* POST */
 	const idx = req.post('idx');
@@ -39,14 +46,14 @@ router.post('/detail/:id', async (req, res, next) => {
 	const user_pw = req.post('user_pw');
 
 	mysql.open();
-	
+
 	let flag = false;
-	
+
 	if( lib.is_val(user_idx) && lib.is_val(user_pw) ){
 		const is_user = `SELECT user_id FROM USER_TBL WHERE idx = ${user_idx} AND user_pw = '${user_pw}'`;
 		const result = await mysql.query(is_user);
 		if( result.length !== 0 ){
-			flag = true;	
+			flag = true;
 		}
 	}
 
